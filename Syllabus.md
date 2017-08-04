@@ -1,5 +1,5 @@
 # SmartCar Software Tutorial Syllabus
-# Author: Peter Tse (mcreng), Dipsy Wong
+## Author: Peter Tse (mcreng), Dipsy Wong
 
 ## C++ Programming
 ### Basic
