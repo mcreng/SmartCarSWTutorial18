@@ -10,11 +10,13 @@
 * Basic I/O
 * Scope
 * Controls
-* Functions
+* Functions & prototypes
+* Header & `extern`
 
 ### Intermediate
 * Preprocessor directives
 * Constexpr
+* Boolean function
 * Array
 * String
 * Reference
