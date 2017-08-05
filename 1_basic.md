@@ -270,12 +270,14 @@ int main(){
 
 Bitwise operators are used to deal with bit by bit arithmetic, really useful when interacting with different electronic modules through low level library.
 
-| Bitwise operator | Meaning     |
-| ---------------- | ----------- |
-| `&`              | Bitwise and |
-| `|`              | Bitwise or  |
-| `~`              | Bitwise not |
-| `^`              | Bitwise xor |
+| Bitwise operator | Meaning            |
+| ---------------- | ------------------ |
+| `&`              | Bitwise and        |
+| `|`              | Bitwise or         |
+| `~`              | Bitwise not        |
+| `^`              | Bitwise xor        |
+| `<<`             | Binary left shift  |
+| `>>`             | Binary right shift |
 
 ```C++
 int main(){
@@ -305,9 +307,38 @@ int main(){
   // b = 0110
   // c = 1010 (bit by bit xor, only one 1 and one 0 returns 1, otherwise 0)
   
+  // left shift, a >> n means a / (2^n)
+  c = a >> 2;
+  // a = 1100
+  // c = 11
+  
+  // right shift, a << n means a * (2^n)
+  c = a << 2;
+  // a = 1100
+  // c = 110000
+  
   return 0;  
 }
 ```
+
+#### Assignment Operators
+
+Assignment operators are just the combination of assignment `==` and all the above operators.
+
+| Assignment operator | Meaning                      |
+| ------------------- | ---------------------------- |
+| `+=`                | `a += b` means `a = a + b`   |
+| `-=`                | `a -= b` means `a = a - b`   |
+| `*=`                | `a *= b` means `a = a * b`   |
+| `/=`                | `a /= b` means `a = a / b`   |
+| `%=`                | `a %= b` means `a = a % b`   |
+| `<<=`               | `a <<= b` means `a = a << b` |
+| `>>=`               | `a >>= b` means `a = a >> b` |
+| `&=`                | `a &= b` means `a = a & b`   |
+| `^=`                | `a ^= b` means `a = a ^ b`   |
+| `|=`                | `a |= b` means `a = a | b`   |
+
+
 
 ### Scopes
 
