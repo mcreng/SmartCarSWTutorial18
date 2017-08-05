@@ -8,11 +8,13 @@
 * Constants
 * Operators
 * Basic I/O
+* Scope
 * Controls
 * Functions
 
 ### Intermediate
 * Preprocessor directives
+* Constexpr
 * Array
 * String
 * Reference
