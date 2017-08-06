@@ -718,6 +718,21 @@ int main(){
 }
 ```
 
+Within a function, you can call another function. (*What happens if the function calls itself?*)
+
+```C++
+int my_func2(){
+  return 2;
+}
+int my_func(){
+  return my_func2();
+}
+int main(){
+  int i = my_func(); // return 2
+  return 0;
+}
+```
+
 Sometimes, the function you created can allow certain inputs (parameters).
 
 ```C++
@@ -787,8 +802,6 @@ float my_func2(){ // define my_func2()
 }
 ```
 
-
-
 ```C++
 // this is another file, file2.cpp
 // if wish to use the functions in file1.cpp, you must
@@ -802,3 +815,4 @@ int main(){
 }
 ```
 
+Note that there should only be one `int main()` function as this is the program entry point. Multiple `int main()` function may cause the compiler/linker to return an error.

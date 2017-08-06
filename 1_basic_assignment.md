@@ -62,7 +62,7 @@ Here provides the detailed explanations of functionalities of the five functions
 
 - `void print_bin(Byte byte)`
 
-  This prints the integer in binary in the forma	t `0b<binary>`. 
+  This prints the integer in binary in the format  `0b<binary>`. 
 
   Expected output of `print_bin(15)` is `0b00001111`.
 
@@ -75,3 +75,35 @@ Here provides the detailed explanations of functionalities of the five functions
 ### Submission
 
 Another C++ program which includes `byte.h` is used to check whether your functions have been implemented correctly. Please, therefore, make sure you do not change the filename and function names when you submit your files. Finish your implementation in `byte.cpp` and submit it with a comment containing your name. Submission deadline is ????/??/??.
+
+### Appendix: Eclipse
+
+It is **recommended** to use Eclipse to do your programming because in SmartCar team we also use Eclipse to code our cars. The instructions to install and use is as following:
+
+* Install Eclipse Neon 1 version (Do not install any other version as it may not be compatible)
+  * Windows 32-bit: http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/neon/1/eclipse-cpp-neon-1-win32.zip
+  * Windows 64-bit: http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/neon/1/eclipse-cpp-neon-1-win32-x86_64.zip
+  * Mac OS-X: http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/neon/1/eclipse-cpp-neon-1-macosx-cocoa-x86_64.tar.gz
+* Install MinGW to compile your C++ programs
+  * Windows: https://sourceforge.net/projects/mingw/files/Installer/mingw-get-setup.exe/download
+* Open Eclipse
+  * File -> New -> C++ Project
+  * Change project name/location
+  * Toolchains: MinGW GCC
+  * Right-click your project
+    * Properties
+    * C/C++ Build -> Settings -> Tool Settings
+    * GCC C++ Compiler -> Miscellaneous
+    * Append `-std=c++11` to Other flags
+    * Apply and close
+  * Pull `byte.h` to the project
+  * You can create a `byte.cpp` to implement the five functions and also `main.cpp` with `int main()` to test your program
+  * Press the 'Build All' button to compile the files (`Ctrl+B` works as well)
+  * To execute the program, click the drop down button next to the 'bug' debug button
+    * Debug configurations...
+    * Left hand side: C/C++ Application
+    * Create a new configuration
+    * Right hand side: C/C++ Application
+      * Search project...
+      * Select the .exe file
+  * From now on you can just press the 'bug' debug button to execute the program, but remember to build it before executing
