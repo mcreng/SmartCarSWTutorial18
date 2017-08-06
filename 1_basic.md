@@ -64,7 +64,7 @@ int main(){
   char d = 'd'; // declared a character with name d and character d, note the single quotation
   float e = 0.0; // declared a float with name e and value 0.0, note the decimal point
   double f = 0.0; // declared a double with name f and value 0.0
-  string g = "hello"; // declared a string with name g and string hello, note the double quotation
+  std::string g = "hello"; // declared a string with name g and string hello, note the double quotation and std::
   return 0;
 }
 ```

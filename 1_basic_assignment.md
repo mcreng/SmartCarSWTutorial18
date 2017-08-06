@@ -16,13 +16,18 @@ Copy the following header file and put it in `byte.h`. Your job is to finish the
 /* byte.h */
 /* Do not alter */
 #include <cstdint>
+#ifndef __BYTE_H_ //#ifndef - #define - #endif will be introduced in Intermediate tutorial
+#define __BYTE_H_
+
 typedef uint8_t Byte; // defining a new type 'Byte' to be equivalent to uint8_t
 
 Byte set_bit(Byte byte, uint8_t n);
 Byte reset_bit(Byte byte, uint8_t n);
 bool get_bit(Byte byte, uint8_t n);
-void print_bin(int bytes);
-void print_hex(int bytes);
+void print_bin(Byte byte);
+void print_hex(Byte byte);
+
+#endif
 ```
 
 ### Explanation
@@ -32,7 +37,7 @@ First, we define the digit number of the binary numbers.
 ```
 0b11100111
   ^^^^^^^^
-  87654321
+  76543210
 ```
 
 Here provides the detailed explanations of functionalities of the five functions.
@@ -55,18 +60,18 @@ Here provides the detailed explanations of functionalities of the five functions
 
   Expected output of `get_bit(0b00001110, 1)` is `0` or `false`.
 
-- `void print_bin(int bytes)`
+- `void print_bin(Byte byte)`
 
-  This prints the integer in binary in the format `0b<binary>`. No trailing zeros.
+  This prints the integer in binary in the forma	t `0b<binary>`. 
 
-  Expected output of `print_bin(15)` is `0b1111`.
+  Expected output of `print_bin(15)` is `0b00001111`.
 
-- `void print_hex(int bytes)`
+- `void print_hex(Byte byte)`
 
-  This prints the integer in hexadecimal in the format `0x<hex>`. No trailing zeros.
+  This prints the integer in hexadecimal in the format `0x<hex>`. 
 
-  Expected output of `print_hex(15)` is `0xF`.
+  Expected output of `print_hex(15)` is `0x0F`.
 
 ### Submission
 
-Another C++ program which includes `byte.h` is used to check whether your functions have been implemented correctly. Please, therefore, make sure you do not change the filename and function names when you submit your files. Submission deadline is ????/??/??.
+Another C++ program which includes `byte.h` is used to check whether your functions have been implemented correctly. Please, therefore, make sure you do not change the filename and function names when you submit your files. Finish your implementation in `byte.cpp` and submit it with a comment containing your name. Submission deadline is ????/??/??.
