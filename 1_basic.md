@@ -1,10 +1,10 @@
 # C++ Programming - Basic
 ## Author: Peter Tse (mcreng)
 
-This section is intended for **non**-software members during the internal competition period.
+This section is mainly intended for **non**-software members during the internal competition period.
 
 ### C++ Code Structure
-Welcome to C++. C++ is somewhat similar to C, and its syntax partly adapts from C. Here in this note, some C-style syntax would be introduced. To begin, we shall look at a script of C++ codes.
+Welcome to C++. C++ is somewhat similar to C, and its syntax partly adapts from C. Here in this note, some C-style syntax would be introduced. To begin, we shall look at a script of C++ codes. Note that all C++ files are stored in `.cpp` files.
 ```C++
 #include <iostream>
 
@@ -68,6 +68,26 @@ int main(){
   return 0;
 }
 ```
+You can name your variables whatever names you want, but bare in minds the following points:
+
+* All variable names should only either begin with an alphabet letter or an underscore (_)
+* After the initial character, you can also contain numbers
+* Uppercase differs from lowercase letters
+* No C++ keywords (such as `int`) can be used
+
+```C++
+int main(){
+  int a; // ok
+  int 2; // not ok
+  int a2; // ok
+  int a#2; // not ok, contain special character
+  int _a2; // ok
+  int _A2; // ok, not the same as _a2
+  int float; // not ok
+  return 0;
+}
+```
+
 It is **highly recommend** that whenever you declare a variable, you should provide it an initial value (*initialization*).
 
 When you would like to re-assign the variable, you can just call the variable name without the type. Otherwise, it is considered as re-creating the variable (which wastes some time).
@@ -338,6 +358,19 @@ Assignment operators are just the combination of assignment `==` and all the abo
 | `^=`                | `a ^= b` means `a = a ^ b`   |
 | `|=`                | `a |= b` means `a = a | b`   |
 
+#### Casting revisited
+
+In the previous section, we recommended the C++ style conversion. This is preferred due to the appearance of operators.
+
+```C++
+int main(){
+  char c = (char)23 + 5; // may cause confusion
+  char d = char(23 + 5); // seems nicer
+  float f = float(2) / 5; // however for floating point division, you still need to do this
+  float f = float(2/5); // since this would calculate 2/5 = 0, then casts 0 to 0.0
+}
+```
+
 
 
 ### Scopes
@@ -448,6 +481,7 @@ int main(){
 Switch-case is a convenient way to write out a bunch of if-then-else if necessary. Note the lack of scope in each `case`.
 
 ```C++
+#include <iostream>
 int main(){
   int a = 2;
   switch(a){
@@ -468,6 +502,7 @@ int main(){
 If you do not include `break`:
 
 ```C++
+#include <iostream>
 int main(){
   int a = 2;
   switch(a){
@@ -487,6 +522,7 @@ int main(){
 You should add the curly brackets if you wish to have separate scopes in each case.
 
 ```C++
+#include <iostream>
 int main(){
   int a = 2;
   switch(a){
@@ -509,23 +545,256 @@ int main(){
 
 #### while
 
+The `while` block can repeat certain actions in the code when certain conditions are met.
 
+```C++
+int main(){
+  int i = 0;
+  while (i < 10){
+    i++;
+  }
+  // i is 10 when it leaves the while-loop
+  return 0;
+}
+```
+
+Again, if the loop only contains one line of code, the scope can be eliminated.
+
+```C++
+int main(){
+  int i = 0;
+  while (i < 10) i++;
+  // i is 10
+  return 0;
+}
+```
 
 #### do-while
 
+The `do` -`while` block acts similar to the `while` block, the only difference is that for `while`, if the initial conditions are not met, the loop would not be executed, while for `do`-`while` block, the loop would be executed once no matter what.
 
+```C++
+int main(){
+  bool _false = false;
+  int i = 0;
+  do {
+    i++;
+  } while (_false); // the while condition is never met
+  // yet as it goes here i = 1
+  return 0;
+}
+```
+
+```C++
+int main(){
+  bool _false = false;
+  int i = 0;
+  do i++;
+  while (_false);
+  // i is 1
+  return 0;
+}
+```
 
 #### for
 
+The `for` block is also to repeat certain actions in the code, the original purpose for `for` is to loop the codes for certain amount of times, but as you alter the content, it can behave like a `while` loop.
 
+```C++
+#include <iostream>
+int main(){
+  int i;
+  for (i = 0; i < 10; i++){ // (initial value of i; condition to be met; step of i), ++i and i++ are equivalent
+    std::cout << i << " ";
+  }
+  // output: 0 1 2 3 4 5 6 7 8 9
+  
+  for (i = 0; i < 10; i++) std::cout << i << " "; //one line version
+  // output: 0 1 2 3 4 5 6 7 8 9
+  
+  for (i = 10; i >= 0; i--){ //--i and i-- are also equivalent
+    std::cout << i << " ";
+  }
+  // output: 10 9 8 7 6 5 4 3 2 1 0
+  
+  for (int j = 0; j < 10; j++){ // you can also declare a variable inside the for-loop scope
+    std::cout << j << " ";
+  }
+  // output: 0 1 2 3 4 5 6 7 8 9
+  j = 1; // invalid, closure of for-loop scope
+  
+  i = 7;
+  for (; i < 10; i++){ // initial value left blank
+    std::cout << i << " ";
+  }
+  // output: 7 8 9
+  
+  for (i = 7; i < 10; ){ // incremenet left blank
+    std::cout << i++ << " "; // Note that original i is printed out, then i is incremented
+  }
+  // output: 7 8 9
+  
+  for ( ; ; ){ // all left blank, causing an eternal loop as the condition are always met
+    std::cout << "Hello";
+  }
+  // output: "HelloHelloHello...." foreverly repeats itself
+  
+  return 0;
+}
+```
 
 ### Static Variables
 
+Still remember that for a variable in some certain scope, as the program leaves the scope, the values are gone and as the program enters the scope again, the variable is re-created with its original value? If you wish to keep the value as the program re-enters the scope and also preserves the scope safeness, you may use `static` specifier.
+
+```C++
+#include <iostream>
+int main(){
+  for (int i = 0; i < 10; i++){
+    { // note this scope
+      int count = 0;
+      count++;
+      std::cout << count << " ";
+    }
+  }
+  // output: 1 1 1 1 1 1 1 1 1 1
+  return 0;
+}
+```
+
+ ```C++
+#include <iostream>
+int main(){
+  for (int i = 0; i < 10; i++){
+    { // note this scope
+      static int count = 0; // 0 would be its initial value; as the program re-enters the scope, it keeps the previous value rather than resetting it to 0
+      count++;
+      std::cout << count << " ";
+    }
+    // count is undefined outside the scope
+  }
+  // output: 1 2 3 4 5 6 7 8 9 10
+  return 0;
+}
+ ```
+
 ### Functions
+
+Since the beginning, we have been dealing with `int main()`. In fact, it is a function and you can create other functions apart from the `main` function. This can help you bundle up some codes for certain specific use, and you can re-use them whenever without any repetition of code.
+
+```C++
+int my_func(){ // just like main(), you need a type for the function, the name of the function and the () to specify it is a function
+  int i = 2;
+  return i; // you should always return the same type of variable  
+}
+
+float my_func2(){
+  return 0.2;
+}
+
+int main(){
+  int i = my_func(); // my_func() returns 2, and assign it to i; note that the scope of both i are different
+  float j = my_func2(); // returns 0.2
+  return 0;
+}
+```
+
+You may also recall that there is a `void` type that we have not talked about. It is mainly used in functions to specify that there is no specific type to be returned.
+
+```C++
+#include <iostream>
+void my_func(){
+  std::cout << "Hello" << std::endl;
+  return; // this can be omitted
+}
+
+int main(){
+  my_func(); // prints "Hello"
+  return 0;
+}
+```
+
+Sometimes, the function you created can allow certain inputs (parameters).
+
+```C++
+int my_add(int a, int b){ // a and b are the inputs of this function, with both type being int
+  return a+b;
+}
+
+int main(){
+  std::cout << my_add(2, 5) << std::endl; // prints 7
+  std::cout << my_add( my_add(4, 5) , 7) << std::endl; // prints 16
+  return 0;
+}
+```
+
+C++ codes run from the top to the bottom, so any functions that you would like to call you be defined first (placed at the top) before you call them.
+
+```C++
+int main(){
+  my_func(); // error, there is no my_func() upper than this line
+  return 0;
+}
+void my_func(){
+  return;
+}
+```
+
+To avoid these kinds of trouble, it is **recommended** for you to define the function first at the top, and leaves your implementation at the bottom. These are what we call *prototypes*.
+
+```C++
+void my_func(); // prototype of my_func()
+
+int main(){
+  my_func(); // ok
+  return 0;
+}
+void my_func(){ // implementation of my_func()
+  return;
+}
+```
 
 ### Header
 
-### Extern Variables
+For most cases, you will be working with multiple C++ files since it is best for you to separate stuff that are meant to have different functionalities. To communicate among different C++ files, you need header files (those with `.h` file type). Inside these header files, there are three major things that you will put it.
+
+* Function prototypes that other files can access
+* Type declaration that other files can access (will be mentioned in *Intermediate* tutorial)
+* Global variables that other files can access
+
+You can think of the header file as a list of things that it is willing to share with other files.
+
+```C++
+// sample header file with name file1.h, the implemenation of the following functions would be in file1.cpp
+int my_func();
+float my_func2();
+extern int glob_int; // global variables for other files, need extern specifier
+```
+
+```C++
+// this is file1.cpp
+#include "file1.h" // need include self header file for the prototypes
+int glob_int = 5; // define global variable
+int my_func(){ // define my_func()
+  return 0;
+}
+float my_func2(){ // define my_func2()
+  return 3.14;
+}
+```
 
 
+
+```C++
+// this is another file, file2.cpp
+// if wish to use the functions in file1.cpp, you must
+#include "file1.h" // includes the header file for file1.cpp
+
+int main(){
+  int i = glob_int; // ok
+  int j = my_func(); // ok
+  float k = my_func2(); // ok
+  return 0;
+}
+```
 
