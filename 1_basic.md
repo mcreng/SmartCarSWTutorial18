@@ -283,6 +283,7 @@ int main(){
   // not operator
   result = !_true; // false
   result = !_false; // true
+  return 0;
 }
 ```
 
@@ -302,6 +303,7 @@ Bitwise operators are used to deal with bit by bit arithmetic, really useful whe
 ```C++
 int main(){
   int a = 0b1100; // this is a way to represent binary numbers in C++
+  // side note: you can also use something like 0xFF to define hexadecimal numbers
   int b = 0b0110;
   int c;
   // bitwise and
@@ -368,6 +370,7 @@ int main(){
   char d = char(23 + 5); // seems nicer
   float f = float(2) / 5; // however for floating point division, you still need to do this
   float f = float(2/5); // since this would calculate 2/5 = 0, then casts 0 to 0.0
+  return 0;
 }
 ```
 
@@ -396,6 +399,7 @@ int main(){
     inside_main_scope = outside_main; // valid
   }
   inside_main = inside_main_scope; // invalid, closure of scope!
+  return 0;
 }
 ```
 
