@@ -1,5 +1,5 @@
 /* byte.h */
-/* Do not alter */
+/* DO NOT CHANGE ANYTHING */
 #include <cstdint>
 #ifndef __BYTE_H_ //#ifndef - #define - #endif will be introduced in Intermediate tutorial
 #define __BYTE_H_
