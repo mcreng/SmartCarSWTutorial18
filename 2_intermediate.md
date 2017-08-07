@@ -145,7 +145,49 @@ int main(){
 }
 ```
 
-Standard string library methods 
+String methods (Not for standard string so sad)
 
-`strcpy(str1,str2)`|copy the content of `str2` to `str1` |
+| method              | description                            |
+| ------------------- | -------------------------------------- |
+| `strcpy(str1,str2)` | copy the content of `str2` to `str1`   |
+| `strcat(str1,str2)` | append the content of `str2` to `str1` |
+
+There are more methods left for you to discover (#
+
+#### Reference
+
+Reference is the address of variable, which is meant by `&` operator. First, we need to know memory. Memory is the way our C++ program store variable value, which is store in an address inside the memory pool. When we are getting or setting value of the variable, actually we are accessing its address. 
+
+```C++
+//declare integer x, let's assume its adress is 0x123456
+int x = 10;	
+
+//define integer y have same address as x, 0x123456, which mean x and y always have same value. 
+int& y = x;	
+
+//display the value of y, which mean display the value stored in 0x123456 which is 10
+cout<<y<<endl; 	
+
+//set value of x to 20, which mean set the value stored in 0x123456 to 20
+x = 20;	
+
+//display the value of y, which mean display the value stored in 0x123456 which is 20
+cout<<y<<endl;  
+
+//set value of y to 50, which mean set the value stored in 0x123456 to 50
+y = 50; 
+
+//display the value of x, which mean display the value stored in 0x123456 which is 50
+cout<<x<<endl;	
+```
+
+So you can see x and y always have same value.
+
+Note: The memory address of variable is fixed when defined, so the operation `int& y = x ` can only be done in declaration.
+
+#### Pointer
+
+Pointer is a variable type which can store a memory address. Let us call the variable that "the pointer is pointing to" "pointee". To get the address of a variable, we use `&`.
+
+
 
