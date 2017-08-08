@@ -187,7 +187,121 @@ Note: The memory address of variable is fixed when defined, so the operation `in
 
 #### Pointer
 
-Pointer is a variable type which can store a memory address. Let us call the variable that "the pointer is pointing to" "pointee". To get the address of a variable, we use `&`.
+##### Pointer Basics
+
+Pointer is a variable type which can store a memory address. Pointer will be useful when we need to deal with variables across function scope. Let us call the variable that "the pointer is pointing to" "pointee". To get the address of a variable, we use `&`. To get the value of pointee, we add a `*` before the pointer. For example:
+
+```C++
+//declare a integer x, assume its address is 0x123456
+int x = 12;
+
+//&x is getting the address of x, which this line will print out 0x123456
+cout<<&x<<endl; //output: 0x123456
+
+//declare a integer pointer pInt pointing to the address of x, which is 0x123456
+int* pInt = &x;
+
+//output the value of pInt, which is 0x123456
+cout<<pInt<<endl; //output: 0x123456
+
+//output the value of pointee of pInt, which means printing the value in address 0x123456, which is 12
+cout<<*pInt<<endl; //output: 12
+
+//change the value of x, which mean changing the value in address 0x123456
+x = 24;
+
+//output the value of pointee of pInt, which means printing the value in address 0x123456, which is 24
+cout<<*pInt<<endl;	//output: 24
+
+//change the value of pointee of pInt to 48, which means changing the value in address 0x123456 to 48
+*pInt = 48;
+
+//print out the value of x, which means printing the value on 0x123456, which is 48
+cout<<x<<endl;	//output: 48
+```
+
+Note: To declare a pointer with no initial pointee, we can use `NULL` (C style) or `nullptr` (c++0x style). Both of them meaning a pointer pointing to nothing. 
+
+**Be careful, never change the value of pointee of pointer which is pointing to nothing.** This will change the value in a random location inside the memory pool, result in hard fault (the program suddenly stop while running).
+
+```C++
+float* foo = NULL;
+unsigned char* bar = nullptr;
+
+//**never do this, as foo and var are both pointing to nothing**
+*foo = 123;	//result: your program GG
+*bar = 'd';	//result: your program GG
+```
+
+Task: make a swap function
+
+```C++
+int a = 3, b = 10;     //a and b can be any value
+//do a swap function
+cout<<a<<" "<<b<<endl; //10 3
+```
 
 
+
+##### Array as a Pointer
+
+Array is actually a pointer pointing to its first element, and a string is actually a character pointer pointing to the first character. For example:
+
+```C++
+int int_array[10]={0,1,2,3,4,5,6,7,8,9};
+cout<<int_array<<endl; //print the address of first element
+cout<<*int_array<<endl; //print the value of first element, which is 0
+
+char buff[12]="hello world";
+cout<<*buff<<endl;	//print out h
+```
+
+##### Memory offset
+
+If we plus or minus some value with the pointer, we can access its neighbor, and this is how array works.
+
+```C++
+int int_array[10]={0,1,2,3,4,5,6,7,8,9};
+cout<<int_array<<" "<<*int_array<<endl;			//0x100000 0
+cout<<int_array+1<<" "<<*(int_array+1)<<endl;	//0x100004 1
+cout<<int_array+2<<" "<<*(int_array+2)<<endl;	//0x100008 2
+```
+
+So you can see, `any_array[n]` is totally equivalent to `*(any_array+n)`. Notice that each address is storing 1 byte, so if you plus `n` to the address, the memory offset is `n` times the size of variable, like in the example, the size of integer is 4 byte, so the offset is `n*4`. To get the size of a variable, we can use `sizeof(myVar)`, and so if we do
+
+##### Array Memory Allocation
+
+This is to allocate some places in the memory pool to build the array using pointer. Remember, delete the array after finishing using it, or you will be wasting memory. If you keep allocating without deleting it, it will result in memory leaks, and the program may crash at anytime.
+
+```C++
+int* x = nullptr; 	//deinfe a pointer
+x = new int[12];	//allocate a size of 12 integers to x
+//some usage for x
+delete [] x;		//release allocated memory of x
+```
+
+
+
+#### Data Structure
+
+This chapter we will talk about `enum` and `struct`.
+
+##### Enum
+
+Enum is actually using numbers to represent different non-numerical values. Maybe an example will be clearer.
+
+```C++
+enum robotics_subteam = {kRoboCon, kRov, kSmartCar};
+cout<<kRoboCon<<endl;	//output: 0
+cout<<kRov<<endl;		//output: 1
+cout<<kSmartCar<<endl;	//output: 2
+```
+
+In the above case, we are actually using 0 to represent RoboCon, 1 to represent ROV, 2 to represent smart car. 
+
+We can also change the data type stored in enum (but must still be integer) and change the value stored in the element in enum:
+
+```C++
+
+```
 
