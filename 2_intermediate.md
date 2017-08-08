@@ -2,11 +2,9 @@
 
 ## Author: Dipsy Wong
 
-### This section is, IDK...
-
  #### Preprocessor directives
 
-Preprocessor directives are some code for the compiler to read. During the compile time, the compiler will compile the code according to the preprocessor directives by replacing the code to be compiled.
+Preprocessor directives are some codes for the compiler to read. During the compile time, the compiler will compile the code according to the preprocessor directives by replacing the code to be compiled.
 
 ###### A.`#define`
 
@@ -27,9 +25,9 @@ int main(){
 }
 ```
 
-And this is the reason why value of `MY_AGE` cannot be changed
+And this is the reason why value of `MY_AGE` cannot be changed.
 
-###### B. `#ifndef` `#endif` 
+###### B. `#include`, `#ifndef` and  `#endif` 
 
 `#include` works by copying the code. For example, 
 
@@ -43,7 +41,7 @@ And this is the reason why value of `MY_AGE` cannot be changed
 
 This will copy all of the content of `hello.h` to `main.cpp`.
 
-However, if `hello.h` also have to include `foo.h` , there will be two definition of `foo.h` contents. At this moment, we need to use `#ifndef` `#endif` to make sure the content of `foo.h` only include once.
+However, if `hello.h` also have to include `foo.h` , there will be two copies of `foo.h` in the compilation. At this moment, we need to use `#ifndef` `#endif` to make sure the content of `foo.h` only include once.
 
 ```C++
 #ifndef FOO_H
@@ -54,11 +52,13 @@ int bar(){
 #endif
 ```
 
-Then, when `foo.h` is included the first time, compiler will find `FOO_H` haven't defined, then it will compile code between `#ifndef` and `#endif` , and define `FOO_H` , so when `foo.h` is included the second time, compiler will find `FOO_H` is already defined and will not compile code between `#ifndef` and `#endif`.
+Then, when `foo.h` is included the first time, compiler will find `FOO_H` haven't be defined, then it will compile code between `#ifndef` and `#endif` , and define `FOO_H` , so when `foo.h` is included the second time, compiler will find `FOO_H` is already defined and will not compile code between `#ifndef` and `#endif`.
 
 As a result, these are very useful for `.h` files.  
 
+###### C. `#pragma`
 
+You may see `#pragma once` in some codes for embedded system too. It is a non-standard way to make sure the file is only included once, and it supports most of the processors. You may choose either the `#ifndef` - `#define` - `#endif` sequence or `#pragma once`, but we recommend the former one.
 
 ####  Array
 
