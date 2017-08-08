@@ -67,6 +67,8 @@ int main(){
   return 0;
 }
 ```
+It is **highly recommend** that whenever you declare a variable, you should provide it an initial value (*initialization*).
+
 You can name your variables whatever names you want, but bare in minds the following points:
 
 * All variable names should only either begin with an alphabet letter or an underscore (_)
@@ -86,8 +88,6 @@ int main(){
   return 0;
 }
 ```
-
-It is **highly recommend** that whenever you declare a variable, you should provide it an initial value (*initialization*).
 
 When you would like to re-assign the variable, you can just call the variable name without the type. Otherwise, it is considered as re-creating the variable (which wastes some time).
 ```C++
@@ -146,6 +146,14 @@ int main(){
 ```
 
 It is **recommended** to use C++ type conversion, as you will see the reason in an upcoming section.
+
+You may rename certain type for the sake of ease of reading. Taking examples from our basic assignment:
+
+```C++
+typedef uint8_t Byte; // typedef <known type> <new name>
+```
+
+This can help us clarify between the actual `Byte` that is meant to be used as binary numbers and `uint8_t` as a small number count.
 
 ### Constants
 
@@ -220,9 +228,9 @@ int main(){
   ++a; // a = 12
   a--; // a = 11
   --a; // a = 10
-  // Here demostrate the difference between prefix and postfix increment/decrement
-  c = a++; // c = 10, a = 10 -> 11; c keeps the value of a, then a increment
-  c = ++a; // a = 11 -> 12, c = 12; a increment, then c keeps the value of a
+  // Here demostrates the difference between prefix and postfix increment/decrement
+  c = a++; // c = 10, a = 10 -> 11; c keeps the value of a, then a increments
+  c = ++a; // a = 11 -> 12, c = 12; a increments, then c keeps the value of a
   // the same goes with decrement
   return 0;
 }
@@ -256,7 +264,7 @@ int main(){
 
 #### Logical Operators
 
-Here is list of logical operators, note that they all also return the boolean type. 
+Here is the list of logical operators, note that they all also return the boolean type. 
 
 | Logical operator | Meaning |
 | ---------------- | ------- |
@@ -417,7 +425,7 @@ int main(){
 }
 ```
 
-But it will refer to outside scope if the variable is not declared inside the scope.
+But it refers to outside scope if the variable is not declared inside the scope.
 
 ```C++
 #include <iostream>
@@ -475,13 +483,14 @@ There is a shorthand for `if` if you are using it to assign different values to 
 int main(){
   bool _certain_req = true;
   int n = _certain_req ? 2 : 5; // (condition ? true : false), n is now 2
+  int m = !_certain_req ? 2 : 5; // m is now 5
   return 0;
 }
 ```
 
 #### switch-case
 
-Switch-case is a convenient way to write out a bunch of if-then-else if necessary. Note the lack of scope in each `case`.
+Switch-case is a convenient way to write out a bunch of if-then-else if necessary. Note the **lack** of scope in each `case`.
 
 ```C++
 #include <iostream>
@@ -522,7 +531,7 @@ int main(){
 }
 ```
 
-You should add the curly brackets if you wish to have separate scopes in each case.
+You should add the curly brackets `{ }` if you wish to have separate scopes in each case.
 
 ```C++
 #include <iostream>
@@ -731,6 +740,17 @@ int main(){
   return 0;
 }
 ```
+
+This demonstrates the effect on a function calling itself.
+
+```C++
+int f(int n){
+  if (n == 1) return 1;
+  else return n * f(n - 1);
+}
+```
+
+This is an implementation of factorial ($n!$). 
 
 Sometimes, the function you created can allow certain inputs (parameters).
 
