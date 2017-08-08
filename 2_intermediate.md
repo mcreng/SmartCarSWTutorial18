@@ -2,11 +2,9 @@
 
 ## Author: Dipsy Wong
 
-### This section is, IDK...
-
  #### Preprocessor directives
 
-Preprocessor directives are some code for the compiler to read. During the compile time, the compiler will compile the code according to the preprocessor directives by replacing the code to be compiled.
+Preprocessor directives are some codes for the compiler to read. During the compile time, the compiler will compile the code according to the preprocessor directives by replacing the code to be compiled.
 
 ###### A.`#define`
 
@@ -29,9 +27,9 @@ int main(){
 }
 ```
 
-And this is the reason why value of `MY_AGE` cannot be changed
+And this is the reason why value of `MY_AGE` cannot be changed.
 
-###### B. `#ifndef` `#endif` 
+###### B. `#include`, `#ifndef` and  `#endif` 
 
 `#include` works by copying the code. For example, 
 
@@ -45,7 +43,7 @@ And this is the reason why value of `MY_AGE` cannot be changed
 
 This will copy all of the content of `hello.h` to `main.cpp`.
 
-However, if `hello.h` also have to include `foo.h` , there will be two definition of `foo.h` contents. At this moment, we need to use `#ifndef` `#endif` to make sure the content of `foo.h` only include once.
+However, if `hello.h` also have to include `foo.h` , there will be two copies of `foo.h` in the compilation. At this moment, we need to use `#ifndef` `#endif` to make sure the content of `foo.h` only include once.
 
 ```C++
 #ifndef FOO_H
@@ -56,9 +54,14 @@ int bar(){
 #endif
 ```
 
-Then, when `foo.h` is included the first time, compiler will find `FOO_H` haven't defined, then it will compile code between `#ifndef` and `#endif` , and define `FOO_H` , so when `foo.h` is included the second time, compiler will find `FOO_H` is already defined and will not compile code between `#ifndef` and `#endif`.
+Then, when `foo.h` is included the first time, compiler will find `FOO_H` haven't be defined, then it will compile code between `#ifndef` and `#endif` , and define `FOO_H` , so when `foo.h` is included the second time, compiler will find `FOO_H` is already defined and will not compile code between `#ifndef` and `#endif`.
 
 As a result, these are very useful for `.h` files.  
+
+###### C. `#pragma`
+
+You may see `#pragma once` in some codes for embedded system too. It is a non-standard way to make sure the file is only included once, and it supports most of the processors. You may choose either the `#ifndef` - `#define` - `#endif` sequence or `#pragma once`, but we recommend the former one.
+
 
 #### Constexpr
 
@@ -101,7 +104,7 @@ Notice: actually the return 0 in the `int main()` is for this purpose. If the re
 An array is a variable will can store list of things. If a variable acts like a box, array is the cabinet. Array can be declared like this:
 
 ```C++
-//an boolean array which can store 100 true false value;
+//a boolean array which can store 100 true false values;
 bool bool_array[100];
 
 //an integer array which can store 10 integers
@@ -142,9 +145,19 @@ std::cout<<matrix[1][3];//get matrix's index 1 row's index 3 element, which is 8
 matrix[1][3] = 100; //set matrix's index 1 row's index 3 element's value to 100 
 ```
 
-Note: if you want each element in the array have a initial, you need to set it one by one. A for loop will do.
+If you wish to initialize each elements of an array with certain values, you may use a for loop. Or, if you just want to zero all the elements, you may do the following.
 
+```C++
+#include <cstring> // need this for memset()
+int main(){
+  int a[n]; // n is any arbitrary number
+  memset(a, 0, sizeof(a)); // or memset(a, 0, sizeof(int) * n); or memset(a, 0, a[0] * n);
+  int matrix[n][m]; // n & m are any arbitrary numbers
+  memset(matrix, 0, sizeof(matrix[0][0]) * n * m); // or memset(matrix, 0, sizeof(int) * n * m);
+}
+```
 
+Note: `sizeof` would return the allocated space (in byte) for certain variable type.
 
 #### String
 
@@ -194,7 +207,7 @@ There are more methods left for you to discover (#
 Reference is the address of variable, which is meant by `&` operator. First, we need to know memory. Memory is the way our C++ program store variable value, which is store in an address inside the memory pool. When we are getting or setting value of the variable, actually we are accessing its address. 
 
 ```C++
-//declare integer x, let's assume its adress is 0x123456
+//declare integer x, let's assume its address is 0x123456
 int x = 10;	
 
 //define integer y have same address as x, 0x123456, which mean x and y always have same value. 
@@ -305,7 +318,7 @@ std::cout<<*pInt<<std::endl;	//output: 24
 std::cout<<x<<std::endl;	//output: 48
 ```
 
-Note: To declare a pointer with no initial pointee, we can use `NULL` (C style) or `nullptr` (c++0x style). Both of them meaning a pointer pointing to nothing. 
+Note: To declare a pointer with no initial pointee, we can use `NULL` (C style) or `nullptr` (c++0x style). Both of them meaning a pointer pointing to nothing. `nullptr` recommended.
 
 **Be careful, never change the value of pointee of pointer which is pointing to nothing.** This will change the value in a random location inside the memory pool, result in hard fault (the program suddenly stop while running).
 
@@ -367,8 +380,6 @@ x = new int[12];	//allocate a size of 12 integers to x
 delete [] x;		//release allocated memory of x
 ```
 
-
-
 #### Data Structure
 
 This chapter we will talk about `enum` and `struct`.
@@ -405,8 +416,6 @@ std::cout<<robotics_subteam::kSmartCar;
 ```
 
 See details in namespace.
-
-
 
 ##### Struct
 
