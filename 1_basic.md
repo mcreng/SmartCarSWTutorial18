@@ -773,6 +773,45 @@ void my_func(){ // implementation of my_func()
 }
 ```
 
+#### Logical Operators revisited
+
+When boolean functions are used with logical operators, one might discover one interesting phenomenon.
+
+```C++
+#include <iostream>
+bool _true(){
+  std::cout << "_true() called." << std::endl;
+  return true;
+}
+
+bool _false(){
+  std::cout << "_false() called." << std::endl;
+  return false;
+}
+
+int main(){
+  _false() && _true(); // only _false() would be called since it must be false no matter the result of _true()
+  std::cout << std::endl;
+  _true() && _false(); // both called
+  std::cout << std::endl;
+  _true() || _false(); // only _true() would be called since it must be true no matter the result of _false()
+  std::cout << std::endl;
+  _false() || _true(); // both called
+  return 0;
+}
+
+// Expected output:
+// _false() called.
+//
+// _true() called.
+// _false() called.
+//
+// _true() called.
+//
+// _false() called.
+// _true() called.
+```
+
 ### Header
 
 For most cases, you will be working with multiple C++ files since it is best for you to separate stuff that are meant to have different functionalities. To communicate among different C++ files, you need header files (those with `.h` file type). Inside these header files, there are three major things that you will put it.
