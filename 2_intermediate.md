@@ -2,7 +2,7 @@
 
 ## Author: Dipsy Wong
 
-### This section is intended for non-software members during the internal competition period
+### This section is, IDK...
 
  #### Preprocessor directives
 
@@ -14,7 +14,7 @@ Preprocessor directives are some code for the compiler to read. During the compi
 #include <iostream>
 #define MY_AGE 18
 int main(){
-  cout<<MY_AGE;
+  std::cout<<MY_AGE;
 }
 ```
 
@@ -23,7 +23,7 @@ The output will be `18`. But `MY_AGE` is not a variable, it is fixed by `#define
 ```C++
 #include <iostream>
 int main(){
-  cout<<18;
+  std::cout<<18;
 }
 ```
 
@@ -52,7 +52,6 @@ int bar(){
   return 1234;
 }
 #endif
-
 ```
 
 Then, when `foo.h` is included the first time, compiler will find `FOO_H` haven't defined, then it will compile code between `#ifndef` and `#endif` , and define `FOO_H` , so when `foo.h` is included the second time, compiler will find `FOO_H` is already defined and will not compile code between `#ifndef` and `#endif`.
@@ -78,7 +77,6 @@ Be careful, array which have variable length can only be declared inside scope.
 
 ```C++
 #include <iostream>
-using namespace std;
 int x = 10;
 bool y[x]; //invalid array declaration
 int main(){
@@ -89,7 +87,7 @@ int main(){
 To get and set value of array, we use `[]` operator. Always remember, the very first index is always `0` !
 
 ```C++
-cout<<a[0]; //print the first element of array a. 
+std::cout<<a[0]; //print the first element of array a. 
 a[12] = true; //set the value of the element having index 12 in array a to true
 ```
 
@@ -103,7 +101,7 @@ int matrix[3][5]={
   {10,11,12,13,14}
 };
 
-cout<<matrix[1][3];//get matrix's index 1 row's index 3 element, which is 8
+std::cout<<matrix[1][3];//get matrix's index 1 row's index 3 element, which is 8
 matrix[1][3] = 100; //set matrix's index 1 row's index 3 element's value to 100 
 ```
 
@@ -118,29 +116,28 @@ String is actually array of characters. They can be used like an array.
 ```C++
 #include <iostream> 
 #include <cstring>	//for data type string, standard string
-using namespace std;
 
 int main(){
 	char a[5] = {'h','e','l','l','o'}; //char array style declaration
 	char b[6] = "world";	//string style declaration, which always end by a null character ('\o') implicitly
 	string str = "lol";		//standard string style declaration, actually is a dynamic length character array
   
-	cout<<a<<" "<<b<<endl;	//output hello world
-	cout<<str<<endl;		//output lol
+	std::cout<<a<<" "<<b<<std::endl;	//output hello world
+	std::cout<<str<<std::endl;		//output lol
 	
   //output hello in vertical
     for (int i=0; i<5; i++){
-		cout<<a[i]<<endl;	
+		std::cout<<a[i]<<std::endl;	
 	}
   
   //output world in vertical
 	for (int i=0; i<5; i++){
-		cout<<b[i]<<endl;	
+		std::cout<<b[i]<<std::endl;	
 	}
   
   //output lol in vertical
 	for (int i=0; i<5; i++){
-		cout<<str[i]<<endl;	
+		std::cout<<str[i]<<std::endl;	
 	}
 }
 ```
@@ -166,19 +163,19 @@ int x = 10;
 int& y = x;	
 
 //display the value of y, which mean display the value stored in 0x123456 which is 10
-cout<<y<<endl; 	
+std::cout<<y<<std::endl; 	
 
 //set value of x to 20, which mean set the value stored in 0x123456 to 20
 x = 20;	
 
 //display the value of y, which mean display the value stored in 0x123456 which is 20
-cout<<y<<endl;  
+std::cout<<y<<std::endl;  
 
 //set value of y to 50, which mean set the value stored in 0x123456 to 50
 y = 50; 
 
 //display the value of x, which mean display the value stored in 0x123456 which is 50
-cout<<x<<endl;	
+std::cout<<x<<std::endl;	
 ```
 
 So you can see x and y always have same value.
@@ -196,28 +193,28 @@ Pointer is a variable type which can store a memory address. Pointer will be use
 int x = 12;
 
 //&x is getting the address of x, which this line will print out 0x123456
-cout<<&x<<endl; //output: 0x123456
+std::cout<<&x<<std::endl; //output: 0x123456
 
 //declare a integer pointer pInt pointing to the address of x, which is 0x123456
 int* pInt = &x;
 
 //output the value of pInt, which is 0x123456
-cout<<pInt<<endl; //output: 0x123456
+std::cout<<pInt<<std::endl; //output: 0x123456
 
 //output the value of pointee of pInt, which means printing the value in address 0x123456, which is 12
-cout<<*pInt<<endl; //output: 12
+std::cout<<*pInt<<std::endl; //output: 12
 
 //change the value of x, which mean changing the value in address 0x123456
 x = 24;
 
 //output the value of pointee of pInt, which means printing the value in address 0x123456, which is 24
-cout<<*pInt<<endl;	//output: 24
+std::cout<<*pInt<<std::endl;	//output: 24
 
 //change the value of pointee of pInt to 48, which means changing the value in address 0x123456 to 48
 *pInt = 48;
 
 //print out the value of x, which means printing the value on 0x123456, which is 48
-cout<<x<<endl;	//output: 48
+std::cout<<x<<std::endl;	//output: 48
 ```
 
 Note: To declare a pointer with no initial pointee, we can use `NULL` (C style) or `nullptr` (c++0x style). Both of them meaning a pointer pointing to nothing. 
@@ -238,10 +235,8 @@ Task: make a swap function
 ```C++
 int a = 3, b = 10;     //a and b can be any value
 //do a swap function
-cout<<a<<" "<<b<<endl; //10 3
+std::cout<<a<<" "<<b<<std::endl; //10 3
 ```
-
-
 
 ##### Array as a Pointer
 
@@ -249,11 +244,11 @@ Array is actually a pointer pointing to its first element, and a string is actua
 
 ```C++
 int int_array[10]={0,1,2,3,4,5,6,7,8,9};
-cout<<int_array<<endl; //print the address of first element
-cout<<*int_array<<endl; //print the value of first element, which is 0
+std::cout<<int_array<<std::endl; //print the address of first element
+std::cout<<*int_array<<std::endl; //print the value of first element, which is 0
 
 char buff[12]="hello world";
-cout<<*buff<<endl;	//print out h
+std::cout<<*buff<<std::endl;	//print out h
 ```
 
 ##### Memory offset
@@ -262,9 +257,9 @@ If we plus or minus some value with the pointer, we can access its neighbor, and
 
 ```C++
 int int_array[10]={0,1,2,3,4,5,6,7,8,9};
-cout<<int_array<<" "<<*int_array<<endl;			//0x100000 0
-cout<<int_array+1<<" "<<*(int_array+1)<<endl;	//0x100004 1
-cout<<int_array+2<<" "<<*(int_array+2)<<endl;	//0x100008 2
+std::cout<<int_array<<" "<<*int_array<<std::endl;		//0x100000 0
+std::cout<<int_array+1<<" "<<*(int_array+1)<<std::endl;	//0x100004 1
+std::cout<<int_array+2<<" "<<*(int_array+2)<<std::endl;	//0x100008 2
 ```
 
 So you can see, `any_array[n]` is totally equivalent to `*(any_array+n)`. Notice that each address is storing 1 byte, so if you plus `n` to the address, the memory offset is `n` times the size of variable, like in the example, the size of integer is 4 byte, so the offset is `n*4`. To get the size of a variable, we can use `sizeof(myVar)`, and so if we do
@@ -288,20 +283,115 @@ This chapter we will talk about `enum` and `struct`.
 
 ##### Enum
 
-Enum is actually using numbers to represent different non-numerical values. Maybe an example will be clearer.
+Enum is actually using enumerator to represent different numerical values. This will make the code look nicer. Maybe an example will be clearer.
 
 ```C++
+//enum <enum name> = {enumerator,enumerator,enumerator,...};
+
 enum robotics_subteam = {kRoboCon, kRov, kSmartCar};
-cout<<kRoboCon<<endl;	//output: 0
-cout<<kRov<<endl;		//output: 1
-cout<<kSmartCar<<endl;	//output: 2
+std::cout<<kRoboCon<<std::endl;		//output: 0
+std::cout<<kRov<<std::endl;			//output: 1
+std::cout<<kSmartCar<<std::endl;	//output: 2
 ```
 
-In the above case, we are actually using 0 to represent RoboCon, 1 to represent ROV, 2 to represent smart car. 
+In the above case, we are actually using 0 to represent RoboCon, 1 to represent ROV, 2 to represent smart car. It will look better if we use enumerator rather than using 0,1,2 to represent our sub-teams, but at the end both are using integers to do operation.
 
-We can also change the data type stored in enum (but must still be integer) and change the value stored in the element in enum:
+We can also change the data type stored in enum (but must still be integer) and change the value stored in the enumerator in enum:
 
 ```C++
-
+enum robotics_subteam:uint8_t = {
+  kRoboCon = 2,
+  kRov,		//implicitly kRov is 3 (previous +1)
+  kSmartCar = 5
+}
 ```
+
+If there is multiple enum having same enumerator, you need to add `<enum_name>::` before the enumerator. For example:
+
+```C++
+std::cout<<robotics_subteam::kSmartCar;
+```
+
+See details in namespace.
+
+
+
+##### Struct
+
+Struct is a data structure which can store multiple data type in one, including function. In practice, we use capital letters to define struct and class (class will talk later). If you need to access elements inside the struct, you need to use dot.
+
+```C++
+//define a struct Foo, and Foo will become a new data type for you
+struct Human{			
+  int age = 0;			//the items are seperated with semicolon
+  void PrintAge(){
+    std::cout<<age<<std::endl;	//variable inside struct can be access without dot (.) when it is accessed iside its own struct
+  }
+};	//don't forget this semicolon
+
+int main(){
+  Human dipsy;		//now you have a new Human, and its name is dipsy
+  dipsy.PrintAge();	//tell dipsy to print his age, output 0
+  dipsy.age = 18;	//set dipsy's age to 18	
+  dipsy.PrintAge();	//tell dipsy to print his age, output 18
+}
+```
+
+If the struct does not contain default value for the variable, you can declare it using `{}`. The above example have default value for age, so it can't declare it using `{}`. The below one is a valid one. 
+
+```C++
+struct Human{
+  int age;
+  float GPA;
+  char* name;
+  bool inRelationship;
+  void Greet(){
+    std::cout<<"Hello, my name is "<<name<<"!"<<std::endl;
+  }
+};
+
+//declare Human peter, assigning value according to its sequence
+//age=18, GPA=4.0, name=peter, inRelationship=false
+Human peter = {18,4.0,"peter",false}; 
+int main(){
+  peter.Greet();	//Hello, my name is peter!
+}
+```
+
+For struct pointer, we use `->` instead of `.` when we are dealing elements inside the struct pointee. For example,
+
+```C++
+struct Human{
+  int age;
+  float GPA;
+  char* name;
+  bool inRelationship;
+  void Greet(){
+    std::cout<<"Hello, my name is "<<name<<"!"<<std::endl;
+  }
+};
+
+//declare a human pointer pointing to nothing
+Human* pHuman = nullptr;
+
+void PlayedOneYearOfSmartCar(){
+  pHuman->age++;
+  pHuman->GPA = 4.3;
+  pHuman->inRelationship = true;
+}
+
+int main(){
+  Human peter = {18,4.0,"peter",false}; 
+  pHuman = &peter;	//let pHuman pointing to peter
+  std::cout<<peter.inRelationship<<std::endl;//this prints false
+  PlayedOneYearOfSmartCar();
+  std::cout<<peter.inRelationship<<std::endl;//now it is true
+}
+```
+
+Now you can see the power of playing one year smart car and the `->` operator~
+
+#### Namespace
+
+Namespace is a space to place variables. Inside a namespace, the name of variables must be unique, while across namespace, 
 
