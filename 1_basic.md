@@ -24,7 +24,6 @@ int main(){
 This is a basic structure of C++ codes. Here is the dissection:
 * `#include <iostream>` is to include the library `iostream`, which is provided by C++ compiler itself.
 * `int main(){}` is the program entry point. It should always ends with `return 0` because this specifies to the compiler that the program runs without errors.
-* The above code would have no functionalities because we haven't programmed it to do anything.
 * The included library `iostream` is used to print the text `Hello World` in line `std::cout << "..." << std::endl;`. Replacing the text inside `"..."` can make it print anything else.
 
 ### Variable Type
