@@ -15,6 +15,7 @@ Preprocessor directives are some code for the compiler to read. During the compi
 #define MY_AGE 18
 int main(){
   std::cout<<MY_AGE;
+  return 0;
 }
 ```
 
@@ -24,6 +25,7 @@ The output will be `18`. But `MY_AGE` is not a variable, it is fixed by `#define
 #include <iostream>
 int main(){
   std::cout<<18;
+  return 0;
 }
 ```
 
@@ -58,7 +60,41 @@ Then, when `foo.h` is included the first time, compiler will find `FOO_H` haven'
 
 As a result, these are very useful for `.h` files.  
 
+#### Constexpr
 
+Constexpr, constant expression, defines an expression that can be evaluated at compile time. For example:
+
+```C++
+constexpr int max(int a, int b) {
+	return (a > b) ? a : b;
+}
+```
+
+This will replace all `max(some_int, another_int)` into `(some_int > another_int) ? some_int : another_int` during compile time, which can help reducing running time as calling a function waste some time.
+
+#### Boolean Function
+
+Boolean function is a coding style, it will do something like a void function and at the same time return the action is successful or not. For example:
+
+```C++
+#include <iostream>
+bool FindSomewhereToDate(){
+  //do something, if success return 1, else return 0
+}
+
+int main(){
+  if(FindSomewhereToDate()){
+    //if success
+    std::cout<<"you get somewhere to date";
+  }
+  else{
+    std::cout<<"you don't have a girlfriend/boyfriend";
+  }
+  return 0;
+}
+```
+
+Notice: actually the return 0 in the `int main()` is for this purpose. If the return value of the main function is not 0, the system will know there is an error.
 
 ####  Array
 
@@ -81,6 +117,7 @@ int x = 10;
 bool y[x]; //invalid array declaration
 int main(){
   bool z[x]; //valid array declaration
+  return 0;
 }
 ```
 
@@ -119,7 +156,7 @@ String is actually array of characters. They can be used like an array.
 
 int main(){
 	char a[5] = {'h','e','l','l','o'}; //char array style declaration
-	char b[6] = "world";	//string style declaration, which always end by a null character ('\o') implicitly
+	char b[6] = "world";	//string style declaration, which always end by a null character ('\0') implicitly
 	string str = "lol";		//standard string style declaration, actually is a dynamic length character array
   
 	std::cout<<a<<" "<<b<<std::endl;	//output hello world
@@ -139,6 +176,7 @@ int main(){
 	for (int i=0; i<5; i++){
 		std::cout<<str[i]<<std::endl;	
 	}
+  return 0;
 }
 ```
 
@@ -181,6 +219,56 @@ std::cout<<x<<std::endl;
 So you can see x and y always have same value.
 
 Note: The memory address of variable is fixed when defined, so the operation `int& y = x ` can only be done in declaration.
+
+##### Pass by Reference VS Pass by Copy
+
+With the above knowledge, you can easily classify what is the different between pass by reference and pass by copy.
+
+```C++
+#include <iostream>
+
+//this is a pass by reference function
+int addByReference(int& x, int& y){
+  x += y;
+  return x;
+}
+
+//this is a pass by copy function
+int addByCopy(int x, int y){
+  x += y;
+  return x;
+}
+
+int main(){
+  int a = 3, b = 9, c = 3, d = 9;
+  
+  //the two functions have exactly the same operation, so their return value are the same
+  std::cout<<addByReference(a,b)<<std::endl;	//12
+  std::cout<<addByCopy(c,d)<<std::endl;		//12
+  
+  //however, the operation x += y is changing the value of different address, their actual effects are different
+  std::cout<<a<<std::endl;	//12
+  std::cout<<c<<std::endl;	//3
+  return 0;
+}
+```
+
+Why the last two outputs are different?
+
+As we know that, passing parameters to function is like assigning variables, when you do `addByReference(a,b)` , it is doing `int& x = a; int &y = b;`, so integer `x` and `y` have the same address as `a` and `b` respectively. Therefore, when we do `x += y`, it is actually adding the value in address of `b` to address of `a`. That's why after calling the function, the value of `a` is changed.
+
+On the other hand, when you do `addByCopy(c,d)`, it is doing `int x = c; int y = d;`. Although their values are the same, it is creating brand new integers `x` and `y` in a new address in the memory pool. They are just copying the values of `c` and `d` and they are independent to each other now. When we do `x += y`, it is changing the value in address of `x` but not address of `c`. That is why after calling the function, the value of `c` is unchanged.
+
+Little Tips: if you add `const` to the parameter of functions, the function will accept constant as parameter
+
+```C++
+int addByReference(int& x, const int& y){
+  x += y;
+  return x;
+}
+int a = 3;
+addByReference(a,9);	//now it is valid
+```
 
 #### Pointer
 
@@ -230,7 +318,11 @@ unsigned char* bar = nullptr;
 *bar = 'd';	//result: your program GG
 ```
 
-Task: make a swap function
+
+
+
+
+On class task: make a swap function
 
 ```C++
 int a = 3, b = 10;     //a and b can be any value
@@ -334,6 +426,7 @@ int main(){
   dipsy.PrintAge();	//tell dipsy to print his age, output 0
   dipsy.age = 18;	//set dipsy's age to 18	
   dipsy.PrintAge();	//tell dipsy to print his age, output 18
+  return 0;
 }
 ```
 
@@ -355,6 +448,7 @@ struct Human{
 Human peter = {18,4.0,"peter",false}; 
 int main(){
   peter.Greet();	//Hello, my name is peter!
+  return 0;
 }
 ```
 
@@ -386,6 +480,7 @@ int main(){
   std::cout<<peter.inRelationship<<std::endl;//this prints false
   PlayedOneYearOfSmartCar();
   std::cout<<peter.inRelationship<<std::endl;//now it is true
+  return 0;
 }
 ```
 
@@ -393,5 +488,52 @@ Now you can see the power of playing one year smart car and the `->` operator~
 
 #### Namespace
 
-Namespace is a space to place variables. Inside a namespace, the name of variables must be unique, while across namespace, 
+Namespace is a space to place variables. Inside a namespace, the name of variables, function, enum, struct, class must be unique, while across namespace, there can be variables having same name.
+
+To access things inside a namespace, we use `::` , `<namespace_name>::<thing's_name>`
+
+```C++
+#include <iostream>
+
+int y;
+float y;	//invalid
+
+void foo(){
+  //anything
+}
+
+int foo(){	//invalid
+  //anything
+}
+
+
+namespace N{
+  int a;
+  int b;
+  void bar(){
+    //anything
+  }
+}
+
+namespace n{
+  int a;	//valid
+  float b;	//valid
+  int bar(){	//valid
+    //anything
+  }
+}
+
+int main(){
+  N::a = 10;	//accessing tha a in namespace N
+  n::a = 20;	//accessing tha a in namespace n
+  std::cout<<N::a<<" "<<n::b<<endl;	//10 20
+  return 0;
+}
+```
+
+##### using namespace
+
+If we keep on accessing the same namespace, we can use `using namespace` or `using`.
+
+`using namespace` : 
 
