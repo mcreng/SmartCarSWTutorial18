@@ -65,7 +65,7 @@ You may see `#pragma once` in some codes for embedded system too. It is a non-st
 An array is a variable will can store list of things. If a variable acts like a box, array is the cabinet. Array can be declared like this:
 
 ```C++
-//an boolean array which can store 100 true false value;
+//a boolean array which can store 100 true false values;
 bool bool_array[100];
 
 //an integer array which can store 10 integers
@@ -105,9 +105,19 @@ std::cout<<matrix[1][3];//get matrix's index 1 row's index 3 element, which is 8
 matrix[1][3] = 100; //set matrix's index 1 row's index 3 element's value to 100 
 ```
 
-Note: if you want each element in the array have a initial, you need to set it one by one. A for loop will do.
+If you wish to initialize each elements of an array with certain values, you may use a for loop. Or, if you just want to zero all the elements, you may do the following.
 
+```C++
+#include <cstring> // need this for memset()
+int main(){
+  int a[n]; // n is any arbitrary number
+  memset(a, 0, sizeof(a)); // or memset(a, 0, sizeof(int) * n); or memset(a, 0, a[0] * n);
+  int matrix[n][m]; // n & m are any arbitrary numbers
+  memset(matrix, 0, sizeof(matrix[0][0]) * n * m); // or memset(matrix, 0, sizeof(int) * n * m);
+}
+```
 
+Note: `sizeof` would return the allocated space (in byte) for certain variable type.
 
 #### String
 
@@ -156,7 +166,7 @@ There are more methods left for you to discover (#
 Reference is the address of variable, which is meant by `&` operator. First, we need to know memory. Memory is the way our C++ program store variable value, which is store in an address inside the memory pool. When we are getting or setting value of the variable, actually we are accessing its address. 
 
 ```C++
-//declare integer x, let's assume its adress is 0x123456
+//declare integer x, let's assume its address is 0x123456
 int x = 10;	
 
 //define integer y have same address as x, 0x123456, which mean x and y always have same value. 
@@ -217,7 +227,7 @@ std::cout<<*pInt<<std::endl;	//output: 24
 std::cout<<x<<std::endl;	//output: 48
 ```
 
-Note: To declare a pointer with no initial pointee, we can use `NULL` (C style) or `nullptr` (c++0x style). Both of them meaning a pointer pointing to nothing. 
+Note: To declare a pointer with no initial pointee, we can use `NULL` (C style) or `nullptr` (c++0x style). Both of them meaning a pointer pointing to nothing. `nullptr` recommended.
 
 **Be careful, never change the value of pointee of pointer which is pointing to nothing.** This will change the value in a random location inside the memory pool, result in hard fault (the program suddenly stop while running).
 
@@ -275,8 +285,6 @@ x = new int[12];	//allocate a size of 12 integers to x
 delete [] x;		//release allocated memory of x
 ```
 
-
-
 #### Data Structure
 
 This chapter we will talk about `enum` and `struct`.
@@ -313,8 +321,6 @@ std::cout<<robotics_subteam::kSmartCar;
 ```
 
 See details in namespace.
-
-
 
 ##### Struct
 
