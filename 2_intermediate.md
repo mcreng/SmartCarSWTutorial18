@@ -382,6 +382,22 @@ delete [] x;		//release allocated memory of x
 
 ##### Void Pointer `void*`
 
+`void*` is a pointer which can point to address of any type of variable. In common, `int* ` 's pointee is always a `int`, `float*` 's pointee is always a `float`, and that is how `int*` differ from `float*` , and also for other types of pointer except `void*`. `void*`'s pointee can be any variable type.
+
+ ```C++
+#include <iostream>
+int myInt = 24;
+float myFloat = 0.01;
+void* myPtr = NULL;
+int main(){
+  myPtr = &myInt;
+  std::cout<<&myInt<<" "<<myPtr<<std::endl;	//0x654321 0x654321
+  myPtr = &myFloat;
+  std::cout<<&myFloat<<" "<<myPtr<<std::endl;//0x654325 0x654325
+  return 0;
+}
+ ```
+
 
 
 
@@ -566,33 +582,85 @@ int main(){
 #include <iostream>
 
 namespace foo{
-	struct A{
-		int x,y,z;
-	}; 
-	struct B{
-		int x,y,z;
-	};
+  struct A{
+    int x,y,z;
+  }; 
+  struct B{
+    int x,y,z;
+  };
 }
 
 namespace bar{
-	struct C{
-		int x,y,z;
-	};
-	struct D{
-		int x,y,z;
-	};
+  struct C{
+    int x,y,z;
+  };
+  struct D{
+    int x,y,z;
+  };
 }
 
 using namespace foo;//expose everything in namespace foo, which is A and B
 using bar::C;	//expose C in namespace bar only
 
 int main(){
-	A a = {1,2,3};	//success, A is visible
-	B b = {1,2,3};	//success, B is visible
-	C c = {1,2,3};	//success, C is visible
-	D d = {1,2,3};	//fail, D is not visible
+  A a = {1,2,3};	//success, A is visible
+  B b = {1,2,3};	//success, B is visible
+  C c = {1,2,3};	//success, C is visible
+  D d = {1,2,3};	//fail, D is not visible
+  return 0;
 }
 ```
 
+#### Class
+
+Class is something similar with struct, and is the core thing in OOP. You can use it directly like a struct, but there is no `{}` style declaration and be aware of `public` and `private`.
+
+- things which are `public` can be accessed inside and outside the class
+- things which are `private` can only be accessed inside the class 
+
+```C++
+#includes <iostream>
+using namespace std;
+class Foo{
+  //default is private
+  int x = 2;
+  
+  public:	//below this is public
+  float y = 4.3;
+  int GetX(){
+    return x;
+  }
+  
+  private:	//below this is private again
+  bool z;	
+};
+
+int main(){
+  Foo foo;
+  cout<<foo.x<<endl;	//GG, x is private
+  cout<<foo.GetX()<<endl;//success, GetX() is public, and GetX is inside class so it can access x which is private inside class
+  cout<<foo.y<<endl;	//success, y is public
+}
+```
+
+It is suggested to keep variables private and make getter and setter function for variables to prevent memory leak, and that is why `public:` and `private:` exist.
 
 
+
+##### constructor
+
+
+
+##### initializing list
+
+
+
+##### this pointer
+
+
+
+#### Standard Library
+
+##### vectors
+
+#####  
