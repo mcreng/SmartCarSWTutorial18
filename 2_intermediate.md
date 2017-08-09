@@ -237,6 +237,8 @@ Note: The memory address of variable is fixed when defined, so the operation `in
 
 With the above knowledge, you can easily classify what is the different between pass by reference and pass by copy.
 
+![Pass by value actually meaning pass by copy](https://blog.penjee.com/wp-content/uploads/2015/02/pass-by-reference-vs-pass-by-value-animation.gif)
+
 ```C++
 #include <iostream>
 
@@ -333,8 +335,6 @@ unsigned char* bar = nullptr;
 
 
 
-
-
 On class task: make a swap function
 
 ```C++
@@ -380,9 +380,15 @@ x = new int[12];	//allocate a size of 12 integers to x
 delete [] x;		//release allocated memory of x
 ```
 
+##### Void Pointer `void*`
+
+
+
+
+
 #### Data Structure
 
-This chapter we will talk about `enum` and `struct`.
+This chapter we will talk about `enum`, `enum struct` and `struct`.
 
 ##### Enum
 
@@ -416,6 +422,16 @@ std::cout<<robotics_subteam::kSmartCar;
 ```
 
 See details in namespace.
+
+##### Enum struct
+
+A enum struct is just a enum with scope, which mean you always need `::` to access the enumerators, and there is no other difference.
+
+```C++
+enum struct robotics_subteam = {kRoboCon, kRov, kSmartCar};
+std::cout<<kSmartCar<<std::endl;		//GG
+std::cout<<robotics_subteam::kSmartCar<<std::endl;			//output: 1
+```
 
 ##### Struct
 
@@ -540,9 +556,43 @@ int main(){
 }
 ```
 
-##### using namespace
+##### using 
 
-If we keep on accessing the same namespace, we can use `using namespace` or `using`.
+`using ` is a wonderful thing for lazy programmers to type less `::` to access things in namespace. 
 
-`using namespace` : 
+`using namespace` makes visible all the names of the namespace, instead stating `using` on a specific object of the namespace makes only that object visible. Visible means no need `::`.
+
+```C++
+#include <iostream>
+
+namespace foo{
+	struct A{
+		int x,y,z;
+	}; 
+	struct B{
+		int x,y,z;
+	};
+}
+
+namespace bar{
+	struct C{
+		int x,y,z;
+	};
+	struct D{
+		int x,y,z;
+	};
+}
+
+using namespace foo;//expose everything in namespace foo, which is A and B
+using bar::C;	//expose C in namespace bar only
+
+int main(){
+	A a = {1,2,3};	//success, A is visible
+	B b = {1,2,3};	//success, B is visible
+	C c = {1,2,3};	//success, C is visible
+	D d = {1,2,3};	//fail, D is not visible
+}
+```
+
+
 
