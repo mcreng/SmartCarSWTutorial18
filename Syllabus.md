@@ -17,6 +17,7 @@
 * Preprocessor directives
 * Constexpr
 * Boolean function
+* Inline function
 * Array
 * String
 * Reference
