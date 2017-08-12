@@ -653,6 +653,27 @@ int main(){
 }
 ```
 
+#### continue and break
+
+In loops like `while`, `do`-`while` and `for`, you may use `continue` or `break` to alter the loop cycles.
+
+* `continue` means to skip the current remaining cycle and start the next one immediately
+* `break` means to completely terminate the current loop.
+
+```c++
+#include <iostream>
+int main(){
+  for (int i = 0; i < 10; i++){
+    if (i%2) continue; // skips every odd number as i%2 is true when i is odd
+    if (i>6) break; // stops the loop if i > 6
+    std::cout << i << std::endl;
+  }
+  return 0;
+}
+// Output:
+// 0 2 4 6
+```
+
 ### Static Variables
 
 Still remember that for a variable in some certain scope, as the program leaves the scope, the values are gone and as the program enters the scope again, the variable is re-created with its original value? If you wish to keep the value as the program re-enters the scope and also preserves the scope safeness, you may use `static` specifier.
@@ -724,6 +745,44 @@ int main(){
 }
 ```
 
+Sometimes, the function you created can allow certain inputs (parameters).
+
+```c++
+int my_add(int a, int b){ // a and b are the inputs of this function, with both type being int
+  return a+b;
+}
+
+int main(){
+  std::cout << my_add(2, 5) << std::endl; // prints 7
+  std::cout << my_add( my_add(4, 5) , 7) << std::endl; // prints 16
+  return 0;
+}
+```
+
+It is possible for you to predefine the parameters of the functions.
+
+```C++
+int myFunc(int a = 2, b = 7){
+  return a + b; 
+}
+int main(){
+  int i = myFunc(); // a = 2, b = 7, return 9
+  i = myFunc(1); // a = 1, b = 7, return 8 
+  i = myFunc(4, 6) // a = 4, b = 6, return 10
+}
+```
+
+Note that after the parameter with default value, any other parameters following it must have a default value as well.
+
+```C++
+int myFunc1(int a = 2, b){ // invalid
+  //...
+}
+int myFunc2(int a, b = 2){ // valid
+  //...
+}
+```
+
 Within a function, you can call another function. (*What happens if the function calls itself?*)
 
 ```C++
@@ -748,21 +807,7 @@ int f(int n){
 }
 ```
 
-This is an implementation of factorial ($n!$). 
-
-Sometimes, the function you created can allow certain inputs (parameters).
-
-```C++
-int my_add(int a, int b){ // a and b are the inputs of this function, with both type being int
-  return a+b;
-}
-
-int main(){
-  std::cout << my_add(2, 5) << std::endl; // prints 7
-  std::cout << my_add( my_add(4, 5) , 7) << std::endl; // prints 16
-  return 0;
-}
-```
+This is an implementation of factorial ($n!$). Note that for most of the times, recursion is a worse implementation method of certain algorithms comparing with other implementations.
 
 C++ codes run from the top to the bottom, so any functions that you would like to call you be defined first (placed at the top) before you call them.
 
