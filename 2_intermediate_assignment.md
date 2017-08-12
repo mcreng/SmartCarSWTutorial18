@@ -40,6 +40,7 @@ class Address{
    *
    * >del <address>
    * Corresponds to del_entry(int* address)
+   * If del * is entered, it is treated as deleting all addresses
    *
    * >chg <address> <new value>
    * Corresponds to chg_entry(int* address, int value)
@@ -105,6 +106,37 @@ class Address{
 #endif
 ```
 
+### Provided Program Entry
+
+```C++
+/* main.cpp */
+/* DO NOT CHANGE ANYTHING */
+#include "address.h"
+#include <vector>
+#include <string>
+#include <iostream>
+
+int main(){
+  std::vector<std::string> arguments;
+  std::string temp{};
+  while (true){
+	arguments.clear();
+	std::string line{};
+	std::getline(std::cin, line);
+	std::istringstream iss(line);
+    while (!iss.eof()){
+      iss >> temp;
+      arguments.push_back(temp);
+    };
+    if (arguments.size() == 1 && arguments.at(0) == "exit") return 0;
+    if (!Address::parse_arg(arguments)) std::cout << "Invalid input" << std::endl;
+    Address::print_data();
+  };
+}
+```
+
+
+
 ### Explanation
 
 In the header file, you would see something in a format of
@@ -116,7 +148,7 @@ In the header file, you would see something in a format of
  */
 ```
 
-This is the syntax of C++ documentations. Inside the documentations, there are brief information for you on how the functions would work, what their inputs are and what their outputs are. The `@brief` tag tells you about the brief information of the functions, the `@param` tag tells you the parameters the functions take and the `@return` tag tells you the return value of the functions. Note that the documentations are located **before** the prototypes, Read them yourselves in the code.
+This is the syntax of C++ documentations. Inside the documentations, there are informations that you may find useful. The `@brief` tag tells you about the brief information of the functions, the `@param` tag tells you the parameters the functions take and the `@return` tag tells you the return value of the functions. Note that the documentations are located **before** the prototypes, Read them yourselves in the code.
 
 This program contains a user input/output interface and the input interface has already provided in `main.cpp`. However, you still need to parse the arguments yourself. There are only three commands supported, namely 
 
@@ -132,13 +164,13 @@ This program contains a user input/output interface and the input interface has 
 
   which can change the value of an entry based on the address provided.
 
-After any user inputs, the program in `main.cpp` would put the arguments and parameters input to `arguments` with type `std::vector<std::string>`, and output the current entries entered with formatting (using `"\t"` tab characters). Your job is to parse the arguments, finish the `add`, `del` and `chg` functions and the output function in this assignment. You need to make sure there will be no potential crashes such as trying to access invalid addresses and incorrect inputs. You may find the function `strtoint(const std::string&, bool)` useful.
+After any user inputs, the program in `main.cpp` would put the arguments and parameters input to `arguments` with type `std::vector<std::string>`, and output the current entries entered with formatting (using `"\t"` tab characters). Your job is to parse the arguments, finish the `add`, `del` and `chg` functions and the output function in this assignment. You need to make sure there will be no potential crashes such as trying to access invalid addresses and incorrect inputs. You may find the function `std::pair<int, bool> strtoint(const std::string&, bool)` useful. Note that the `exit` command is handled by `main.cpp` already.
 
 ### Expected I/O Results
 
 This is to provide a set of correct input/output result of the program. Lines with `>` at the start indicate an user input.
 
-```
+```c++
 >add var1 10
 Address		Name	Value
 0x9f1ff8	var1	10
@@ -167,9 +199,9 @@ Address		Name	Value
 Invalid input
 Address		Name	Value
 0x9f1ff8	var1	205
->del 0x9f1ff8
+>del *
 Address		Name	Value
-
+>exit
 ```
 
 ### Submission

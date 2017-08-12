@@ -17,8 +17,8 @@ int main(){
       iss >> temp;
       arguments.push_back(temp);
     };
+    if (arguments.size() == 1 && arguments.at(0) == "exit") return 0;
     if (!Address::parse_arg(arguments)) std::cout << "Invalid input" << std::endl;
     Address::print_data();
   };
-  return 0;
 }

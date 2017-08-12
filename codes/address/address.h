@@ -29,6 +29,7 @@ class Address{
    *
    * >del <address>
    * Corresponds to del_entry(int* address)
+   * If del * is entered, it is treated as deleting all addresses
    *
    * >chg <address> <new value>
    * Corresponds to chg_entry(int* address, int value)
