@@ -135,8 +135,6 @@ int main(){
 }
 ```
 
-
-
 ### Explanation
 
 In the header file, you would see something in a format of
