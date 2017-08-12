@@ -381,6 +381,29 @@ int main(){
 }
 ```
 
+### Basic I/O
+
+To test our programs here, we mostly would use the user input/output interfaces. Here we would only cover the output interface since input interface has a less usefulness when it comes to debugging our programs. In SmartCar, we do not use C++ I/O anyways, we normally use LCD/LED for outputs and buttons/joystick for inputs.
+
+You have already seen the usage of C++ output interface in the first section, the `std::cout` one.
+
+```C++
+#include <iostream> // remember to include this to use std::cout
+
+int main(){
+  std::cout << "Hello World" << std::endl; // it can output any string
+  int b = 5;
+  std::cout << b << std::endl; // or any variables with any type
+  float c = 0.2;
+  std::cout << b << " " << c << std::endl; // or multiple things at once
+  std::cout << b; // or without std::endl, which is to specify an end line
+  std::cout << " " << c << std::endl; // this is just the same as std::cout << b << " " << c << std::endl
+  return 0;
+}
+```
+
+
+
 ### Scopes
 
 Have you noticed the curly brackets `{ }` in our `main()` function? This is to define a *scope*, which you think of as a closure of declared variables and constants. In fact, you can define a variable outside `main()` and you would be still able to access it. It is called a *global variable*.
