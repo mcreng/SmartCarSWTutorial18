@@ -381,8 +381,6 @@ int main(){
 }
 ```
 
-
-
 ### Scopes
 
 Have you noticed the curly brackets `{ }` in our `main()` function? This is to define a *scope*, which you think of as a closure of declared variables and constants. In fact, you can define a variable outside `main()` and you would be still able to access it. It is called a *global variable*.
