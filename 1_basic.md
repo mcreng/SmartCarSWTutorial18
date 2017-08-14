@@ -89,12 +89,12 @@ int main(){
 }
 ```
 
-When you would like to re-assign the variable, you can just call the variable name without the type. Otherwise, it is considered as re-creating the variable (which wastes some time).
+When you would like to re-assign the variable, you can only call the variable name without the type. Otherwise the compiler would throw an error.
 ```C++
 int main(){
   int a = 0; // a is 0
   a = 1; // now a is 1
-  int a = 2; // a is re-created, and is now 2
+  int a = 2; // invalid
   return 0;
 }
 ```
@@ -138,7 +138,7 @@ The type conversion above is an *implicit* casting, i.e. the compiler itself fig
 ```C++
 int main(){
   float f = 2.5;
-  int n = (float)f; // C type conversion, n is now 2
+  int n = (int)f; // C type conversion, n is now 2
   n = float(f); // C++ type conversion, n is now 2
   
   return 0;
