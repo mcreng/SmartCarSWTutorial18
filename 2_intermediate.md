@@ -912,12 +912,29 @@ class Rect{
 }
 ```
 
-
-
-
-
 #### Standard Library
 
-##### vectors
+All type in standard library are in standard namespace.
 
-#####  
+##### Vector
+
+Vector is something similar to array, but its length and memory are managed automatically.  
+
+ 
+
+
+
+```C++
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> myVec;	//You need to tell compiler what variable type is this vector handling by putting the variable into <> behind vector
+
+int main(){
+  myVec.push_back(12);	//append value 12 as a new element in vector myVect at the end
+  
+  return 0;
+}
+```
+
