@@ -62,18 +62,57 @@ As a result, these are very useful for `.h` files.
 
 You may see `#pragma once` in some codes for embedded system too. It is a non-standard way to make sure the file is only included once, and it supports most of the processors. You may choose either the `#ifndef` - `#define` - `#endif` sequence or `#pragma once`, but we recommend the former one.
 
+#### Inline Function
 
-#### Constexpr
-
-Constexpr, constant expression, defines an expression that can be evaluated at compile time. For example:
-
+The inline functions are a C++ enhancement feature to increase the execution time of a program. Functions can be instructed to compiler to make them inline so that compiler can replace those function definition wherever those are being called. Compiler replaces the definition of inline functions at compile time instead of referring function definition at runtime. 
+NOTE- This is just a suggestion to compiler to make the function inline, if function is big (in term of executable instruction etc) then, compiler can ignore the “inline” request and treat the function as normal function.
 ```C++
-constexpr int max(int a, int b) {
-	return (a > b) ? a : b;
+inline int max(int a, int b) {	//fine
+  return (a > b) ? a : b;
+}
+
+inline int min(int a, int b) {	//still fine
+  char msg = "this line is totally rubbish";
+  return (a < b) ? a : b;
 }
 ```
 
-This will replace all `max(some_int, another_int)` into `(some_int > another_int) ? some_int : another_int` during compile time, which can help reducing running time as calling a function waste some time.
+This will replace all `max(some_int, another_int)` into `(some_int > another_int) ? some_int : another_int` during compile time, which can help reducing running time as calling a function waste some time. 
+
+#### Constexpr
+
+Constexpr, constant expression, defines an expression that can be evaluated at compile time. It can be a variable or function with one line of return only. For example:
+
+```C++
+constexpr float foo = 1+2+3+4+5+6+7;	//valid
+constexpr int max(int a, int b) {	//valid
+  return (a > b) ? a : b;
+}
+constexpr int min(int a, int b) {	//compile error
+  char msg = "this line is totally rubbish";
+  return (a < b) ? a : b;
+}
+```
+
+This will replace all `foo` to result of`1+2+3+4+5+6+7` which is `28`; `max(some_int, another_int)` into `(some_int > another_int) ? some_int : another_int` during compile time, which can help reducing running time as calling a function waste some time. Note that constexpr function must be in recursion form instead of iteration.
+
+```C++
+//recursion form, correct
+constexpr int factorial(int n){
+  return n <= 1? 1 : (n * factorial(n - 1));
+}
+
+//iteration form, which need multiple line, compilation error
+constexpr int factorial(int n){
+  int x = 1;
+  for(int i=1;i<=n;i++){
+    x*=i;
+  }	
+  return x;
+}
+```
+
+
 
 #### Boolean Function
 
@@ -98,6 +137,10 @@ int main(){
 ```
 
 Notice: actually the return 0 in the `int main()` is for this purpose. If the return value of the main function is not 0, the system will know there is an error.
+
+If a single true false value is not enough, you can return a enum value.
+
+
 
 ####  Array
 
@@ -157,7 +200,18 @@ int main(){
 }
 ```
 
-Note: `sizeof` would return the allocated space (in byte) for certain variable type.
+Note: `sizeof` would return the allocated space (in byte) for certain variable type. 
+
+**Warning: Never access index which is out of array boundary**
+
+```C++
+int a[10];
+a[11] = 100;	//out of bound, memory leak, program die
+a[10] = 200;	//out of bound, memory leak, program die
+//the value inside [] can only be 0<=integer<10
+```
+
+
 
 #### String
 
@@ -170,7 +224,7 @@ String is actually array of characters. They can be used like an array.
 int main(){
 	char a[5] = {'h','e','l','l','o'}; //char array style declaration
 	char b[6] = "world";	//string style declaration, which always end by a null character ('\0') implicitly
-	string str = "lol";		//standard string style declaration, actually is a dynamic length character array
+	std::string str = "lol";		//standard string style declaration, actually is a dynamic length character array
   
 	std::cout<<a<<" "<<b<<std::endl;	//output hello world
 	std::cout<<str<<std::endl;		//output lol
@@ -193,7 +247,7 @@ int main(){
 }
 ```
 
-String methods (Not for standard string so sad)
+String methods (Not for standard string, which can directly use `=` and `+` operator)
 
 | method              | description                            |
 | ------------------- | -------------------------------------- |
@@ -289,7 +343,7 @@ addByReference(a,9);	//now it is valid
 
 ##### Pointer Basics
 
-Pointer is a variable type which can store a memory address. Pointer will be useful when we need to deal with variables across function scope. Let us call the variable that "the pointer is pointing to" "pointee". To get the address of a variable, we use `&`. To get the value of pointee, we add a `*` before the pointer. For example:
+Pointer is a variable type which can store a memory address. Pointer will be useful when we need to deal with variables across function scope. Let us call the variable that "the pointer is pointing to" "pointee". To get the address of a variable, we use `&`. To get the value of pointee, namely dereferencing, we add a `*` before the pointer. For example:
 
 ```C++
 //declare a integer x, assume its address is 0x123456
@@ -322,7 +376,7 @@ std::cout<<x<<std::endl;	//output: 48
 
 Note: To declare a pointer with no initial pointee, we can use `NULL` (C style) or `nullptr` (c++0x style). Both of them meaning a pointer pointing to nothing. `nullptr` recommended.
 
-**Be careful, never change the value of pointee of pointer which is pointing to nothing.** This will change the value in a random location inside the memory pool, result in hard fault (the program suddenly stop while running).
+**Be careful, never change the value of null pointer.** This will change the value in a random location inside the memory pool, result in hard fault (the program suddenly stop while running).
 
 ```C++
 float* foo = NULL;
@@ -331,6 +385,17 @@ unsigned char* bar = nullptr;
 //**never do this, as foo and var are both pointing to nothing**
 *foo = 123;	//result: your program GG
 *bar = 'd';	//result: your program GG
+```
+
+Therefore, you should always check the existence of pointee before dereferencing.
+
+```C++
+if(foo != NULL){
+    *foo = 123;
+}
+if(bar != nullptr){
+    *bar = 'd';
+}
 ```
 
 
@@ -369,12 +434,17 @@ std::cout<<int_array+2<<" "<<*(int_array+2)<<std::endl;	//0x100008 2
 
 So you can see, `any_array[n]` is totally equivalent to `*(any_array+n)`. Notice that each address is storing 1 byte, so if you plus `n` to the address, the memory offset is `n` times the size of variable, like in the example, the size of integer is 4 byte, so the offset is `n*4`. To get the size of a variable, we can use `sizeof(myVar)`, and so if we do
 
-##### Array Memory Allocation
+##### Memory Allocation `new`
 
-This is to allocate some places in the memory pool to build the array using pointer. Remember, delete the array after finishing using it, or you will be wasting memory. If you keep allocating without deleting it, it will result in memory leaks, and the program may crash at anytime.
+Aside from assigning a reference to a pointer, you can allocate a new memory space for the pointer, it may be a single variable or array. Remember, delete the memory after finishing using it, or you will be wasting memory. If you keep allocating without deleting it, it will result in memory leaks, and the program may crash at anytime.
 
 ```C++
 int* x = nullptr; 	//deinfe a pointer
+
+x = new int;		//allocate a size of a integers to x
+//some usage for x
+delete x;
+
 x = new int[12];	//allocate a size of 12 integers to x
 //some usage for x
 delete [] x;		//release allocated memory of x
@@ -382,7 +452,7 @@ delete [] x;		//release allocated memory of x
 
 ##### Void Pointer `void*`
 
-`void*` is a pointer which can point to address of any type of variable. In common, `int* ` 's pointee is always a `int`, `float*` 's pointee is always a `float`, and that is how `int*` differ from `float*` , and also for other types of pointer except `void*`. `void*`'s pointee can be any variable type.
+`void*` is a pointer which can point to address of any type of variable. In common, `int* ` 's pointee is always a `int`, `float*` 's pointee is always a `float`, and that is how `int*` differ from `float*` , and also for other types of pointer except `void*`. `void*`'s pointee can be any variable type. Notice that before dereferencing void pointer, you need to cast it as a typed pointer.
 
  ```C++
 #include <iostream>
@@ -392,8 +462,12 @@ void* myPtr = NULL;
 int main(){
   myPtr = &myInt;
   std::cout<<&myInt<<" "<<myPtr<<std::endl;	//0x654321 0x654321
+  std::cout<<*(int*)myPtr<<std::endl;		//24
+  *myPtr = 39;								//error
+  *(int*)myPtr = 39;						//myInt successfully become 39
   myPtr = &myFloat;
   std::cout<<&myFloat<<" "<<myPtr<<std::endl;//0x654325 0x654325
+  std::cout<<(*myPtr)<<std::endl;			//error
   return 0;
 }
  ```
