@@ -695,7 +695,7 @@ int main(){
 }
 ```
 
-##### using 
+##### using and using namespace 
 
 `using ` is a wonderful thing for lazy programmers to type less `::` to access things in namespace. 
 
@@ -736,7 +736,7 @@ int main(){
 
 #### Class
 
-Class is something similar with struct, and is the core thing in OOP. You can use it directly like a struct, but there is no `{}` style declaration and be aware of `public` and `private`.
+Class is something similar with struct, and is the core thing in OOP. The specific properties of an object (variables) are called attributes, and capabilities of an object (functions) are called methods. You can use it directly like a struct, but there is no `{}` style declaration and be aware of `public` and `private`.
 
 - things which are `public` can be accessed inside and outside the class
 - things which are `private` can only be accessed inside the class 
@@ -753,6 +753,11 @@ class Foo{
   int GetX(){
     return x;
   }
+  void Troll(){
+    for(int i=0; i<x; i++){
+      cout<<Troll<<endl;
+    }
+  }
   
   private:	//below this is private again
   bool z;	
@@ -768,17 +773,146 @@ int main(){
 
 It is suggested to keep variables private and make getter and setter function for variables to prevent memory leak, and that is why `public:` and `private:` exist.
 
+##### Separation of Code
+
+Normally we separate the prototype and implementation of a class into a header file and a source file. It is a good practice to reduce the building time of code as the compiler can just compile the files which have been changed but not the whole bunch of code.
+
+Taking the previous class as an example to show separation of code, we put the prototype in `foo.h` and implementation in `foo.cpp`, and the `main.cpp` will be clean.
+
+```C++
+//foo.h
+#ifndef FOO_H	//header guard
+#define FOO_H
+class Foo{
+  public:
+  float y = 4.3;
+  int GetX(){return x;}	//usually function with only 1 line we keep in header file
+  void Troll();
+  private:
+  int x = 2;
+  bool z;
+};
+```
+
+```C++
+//foo.cpp
+#include "foo.h"
+#include <iostream>
+using namespace std;
+void Foo::Torll(){			//you need <class_name>::<method_name>
+  for(int i=0; i<x; i++){
+    cout<<Troll<<endl;
+  }
+}
+```
+
+```C++
+//main.cpp
+#include <iostream>
+#include "foo.h"
+int main(){
+  Foo foo;
+  cout<<foo.x<<endl;	//GG, x is private
+  cout<<foo.GetX()<<endl;//success, GetX() is public, and GetX is inside class so it can access x which is private inside class
+  cout<<foo.y<<endl;	//success, y is public
+}
+```
 
 
-##### constructor
 
+##### Constructor
 
+Constructor is the function which will run once the object is created. It is have the same name as object. Constructor must be public and no return type.
 
-##### initializing list
+```C++
+class Rect{
+  public:
+  Rect(int x, int y, int w, int h){
+    m_x = x; m_y = y; m_w = w; m_h = h;
+  }
+  
+  private:
+  int m_x, m_y, m_w, m_h;
+}
+```
 
+Special Constructors :
 
+_same class can have multiple constructors (function overload)_
+
+- Default constructor : constructor don't need to supply arguments (or all have default values)
+- Conversion constructor : only need to supply one argument, others may be default parameters)
+- Copy constructor : with only one parameter that has the same type as the object
+
+##### Member Initialization List
+
+It is the easiest way to initialize the values of variable inside the object. It initializes variables by placing a list behind the constructor. `Constructor(int param1, float param2):var1(param1), var2(param2)`. Why we always use member initialization list instead of something like previous topic?
+
+- It is the only way to initialize a `const`
+- It is the only way to initialize a member object with no default constructor (constructor with no argument needed to give).
+- Execution efficiency as member initialization can be compiled more nicely.
+- Parameters of constructor can have same name as object attribute.
+
+```C++
+//this class do not have default parameter
+class A{
+public:
+    A(int x):x(x) {}	//this is declare x(class A) to have value as x(parameter), valid
+    int x;
+};
+
+class B{
+public:
+  // 'a' and 'y' MUST be initialized in an initializer list; here will call constructor A(int) directly, and y will initialize with value as 2
+    B() : a(3), y(2){  
+  //you cannot place a(3) inside {}, because a shall have been constructed when entering the {} as a is inside the root scope of class B. However there is no default constructor to contruct a before entering the {}.
+  //you cannot change value of y here also because the value of y has alread fixed when entering the {}
+    }
+    
+private:
+    A a;	//this will try to call default constructor of A, however there isn't,
+  			//the program will expect it initialized in member initialization list
+    const int y;	//const can never be changed after initialization (declaration)
+};
+```
+
+reference:https://stackoverflow.com/questions/926752/why-should-i-prefer-to-use-member-initialization-list
+
+**Note** : be aware of the initialization sequence of variable, as this may cause a difference. Variable are initialized using the sequence you wrote it in the prototype, but not using the sequence in the member initialization list. For example:
+
+```C++
+class Human {
+    bool m_can_get_married;
+    int  m_age;
+public:
+    Human(int age)
+     : m_age(age), m_can_get_married(m_age >= 18 ? true : false)
+    {}
+};
+```
+
+Although `m_can_get_married` is behind `m_age` in the initializing list, it is before `m_age` in the prototype definition, so it is initialized before `m_age`, however its value depends on the value of `m_age`, there will be a logical bug. You will be forever alone if you do programming like this.
 
 ##### this pointer
+
+this pointer is a pointer pointing to itself, useful when you need to separate variables of same name.
+
+```C++
+class Rect{
+  public:
+  Square(int length, int width):length(length),width(width){}
+  void SetLength(int length){
+    length = length;			//WTF are you doing?
+  }
+  void SetWidth(int width){
+    this->width = width;		//this is actually changing the width
+  }
+  private:
+  int length, width;
+}
+```
+
+
 
 
 
