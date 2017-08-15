@@ -472,7 +472,56 @@ int main(){
 }
  ```
 
+##### Function Pointer
 
+Every function is stored in a memory address, and when you calling a function, you are running code in that memory address. Therefore, a function is also a pointer and it can be stored as a variable.
+
+```C++
+#include <iostream>
+int main(){
+  std::cout<<(void*)main<<std::endl;	//displace the address of function main
+}
+```
+
+Declare a C style function pointer is a bit annoying, or you can use standard function.
+
+```C++
+//functions.h
+
+void f1(){}
+int f2(){return 1;}
+float f3(bool f){return f;}
+```
+
+```C++
+//C style function pointers
+#include <iostream>
+#include "functions.h"
+
+//<return_type>(*<pointer_name>)(parameters_type) = nullptr;
+void(*ptr1)() = f1;
+int(*ptr2)() = f2;
+float(*ptr3)(bool) = f3;
+
+int main(){
+  void vptr = (void*)f3;							//use of void pointer
+  std::cout<<(float(*)(bool)vptr)(1)<<std::endl;	//casting to function pointer
+  
+  ptr1();	//call the pointee of function pointer
+  return 0;
+}
+```
+
+```C++
+//C++ standard function
+#include <functional>
+#include "functions.h"
+std::function<void()> fptr1 = f1;
+std::function<int()> fptr = f2;
+std::function<float(bool)> fptr = f3;
+
+ptr1();		//call the pointee of function pointer
+```
 
 
 
