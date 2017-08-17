@@ -352,7 +352,7 @@ int main(){
 
 #### Assignment Operators
 
-Assignment operators are just the combination of assignment `==` and all the above operators.
+Assignment operators are just the combination of assignment `=` and all the above operators.
 
 | Assignment operator | Meaning                      |
 | ------------------- | ---------------------------- |
