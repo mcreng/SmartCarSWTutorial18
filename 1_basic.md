@@ -527,6 +527,9 @@ int main(){
     case 3:
       std::cout << "a is 3" << std::endl;
       break;
+    default: // other cases
+      // not handled
+      break;
   } // expected output: "a is 2"
   return 0;
 }
