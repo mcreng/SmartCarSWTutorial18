@@ -62,6 +62,60 @@ As a result, these are very useful for `.h` files.
 
 You may see `#pragma once` in some codes for embedded system too. It is a non-standard way to make sure the file is only included once, and it supports most of the processors. You may choose either the `#ifndef` - `#define` - `#endif` sequence or `#pragma once`, but we recommend the former one.
 
+#### Function Overload
+
+Function overload means functions having same name, but different parameters, in the same scope. For example:
+
+```C++
+int max(int a, int b){return (a>b?a:b);}
+float max(float a, float b){return (a>b?a:b);}
+double max(double a, double b){return (a>b?a:b);}
+```
+
+For different types of variable pass to function max, different version of max is called. You may even have different implementations
+
+```C++
+#include <iostream>
+void print(){
+  std::cout<<"param is nothing"<<std::endl;
+}
+void print(int x){
+  std::cout<<"param is integer with value = "<<x<<std::endl;
+}
+void print(float x){
+  std::cout<<"param is float with value = "<<x<<std::endl;
+}
+int main(){
+  float x = 1.234;
+  print();			//param is nothing
+  print(x);			//param is float with value = 1.234
+  print((int) x);	//param is float with value = 1
+  return 0;
+}
+```
+
+Note: if you overload a function which have default parameters, it will cause ambiguity error
+
+```c++
+#include <iostream>
+/*version 1*/
+void print(){
+  std::cout<<"param is nothing"<<std::endl;
+}
+
+/*version 2*/
+void print(int x = 0){
+  std::cout<<"param is integer with value = "<<x<<std::endl;
+}
+
+int main(){
+  print();			//are you calling version 1, or version 2 with parameter x = 0
+  return 0;
+}
+```
+
+
+
 #### Inline Function
 
 The inline functions are a C++ enhancement feature to increase the execution time of a program. Functions can be instructed to compiler to make them inline so that compiler can replace those function definition wherever those are being called. Compiler replaces the definition of inline functions at compile time instead of referring function definition at runtime. 
@@ -918,22 +972,106 @@ All type in standard library are in standard namespace.
 
 ##### Vector
 
-Vector is something similar to array, but its length and memory are managed automatically.  
+Vector is a standard container similar to array, but its length and memory are managed automatically. You need to include `vector` to use vector. You can treat it like an array using `[]` and `=` operator. You can use `push_back()` or `emplace_back()` to append elements at the back while lengthen the array, and `pop_back()` to get and remove the last element. You can use `size()` to get the length of vector.
 
- 
-
-
+The difference between emplace and push is that emplace will construct the object while pushing.
 
 ```C++
 #include <iostream>
 #include <vector>
 using namespace std;
 
-vector<int> myVec;	//You need to tell compiler what variable type is this vector handling by putting the variable into <> behind vector
+class Foo{
+  int x, y;
+  public:
+  Foo(int x, int y):x(x),y(y){}
+}
 
+vector<int> myIntVec = {1,2,3,4};	//You need to tell compiler what variable type is this vector handling by putting the variable into <> behind vector
+vector<Foo> myFooVec;
 int main(){
-  myVec.push_back(12);	//append value 12 as a new element in vector myVect at the end
-  
+    myIntVec.push_back(6);	//{1,2,3,4,6}
+  	myIntVec[4] = 5;		//{1,2,3,4,5}
+  	cout<<myIntVec.size();	//5
+  	myFooVec.push_back(Foo(1,2));	//{Foo(1,2)}
+  	myFooVec.emplace_back(3,4);		//{Foo(1,2),Foo(3,4)}	
+}
+```
+
+###### Use of `auto` Type
+
+`auto` is a variable type which the compiler will automatically determine what is the best variable type for it. For example:
+
+```C++
+vector<int> myIntVec = {1,2,3,4};
+auto myInt = myIntVec[2]; 	//compiler will choose the best variable type for it, which may be int
+
+//for each entry in myIntVec
+for(auto& entry: myIntVec){	//better to use reference or changes on entry will not affect myIntVec
+    cout<<entry;
+}
+```
+
+###### Iterator
+
+Iterator, aka cursor, pointing an element in vector. The iterator (cursor) can refer to the starting element of vector by `begin()` or element after the last element of vector by `end()`.
+
+| Iterator             | position                                 |
+| -------------------- | ---------------------------------------- |
+| `myVector.begin()`   | `{ (0) , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 ,,,,}` |
+| `myVector.begin()+1` | `{ 0 , (1) , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 ,,,,}` |
+| `myVector.end()`     | `{ 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 ,(),,,}` |
+| `myVector.end()-1`   | `{ 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , (9) ,,,,}` |
+
+```C++
+//http://www.cplusplus.com/reference/vector/vector/begin/
+#include <iostream>
+#include <vector>
+
+int main ()
+{
+  std::vector<int> myvector;
+  for (int i=1; i<=5; i++) myvector.push_back(i);
+
+  std::cout << "myvector contains:";
+  for (std::vector<int>::iterator it = myvector.begin() ; it != myvector.end(); ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+
+  return 0;
+}
+```
+
+Iterator is needed for `insert()` and `erase()` . Element at the back can be iterated faster $O(1)$ while middle is slower $O(n)$.
+
+`insert()` will insert the entry at the cursor position and move entries at or behind the cursor position backward.
+
+`erase()` will remove the entry at the cursor position.
+
+```C++
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> myVec = {1,2,3,4};
+int main(){
+  myVec.insert(myVec.begin(),0);	//{0,1,2,3,4}
+  myVec.insert(myVec.end(),5);		//{0,1,2,3,4,5}
+  myVec.erase(myVec.end()-2);		//{0,1,2,3,5}
+  return 0;
+}
+```
+
+##### Pair
+
+Pair is a standard data structure containing two variable: `first` and `second`. No header need to be included.
+
+```C++
+#include <iostrea>
+using namespace std;
+pair<int,int> myPair = {1,2};	//you need to define the variable types inside pair
+int main(){
+  cout<<myPair.first<<","<<myPair.second<<endl;
   return 0;
 }
 ```
