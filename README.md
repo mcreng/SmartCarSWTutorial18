@@ -21,9 +21,10 @@ This is a repository for the upcoming 2018 SmartCar Software Tutorial materials.
 ### Intermediate
 
 - Preprocessor directives
+- Function Overload
+- Inline function
 - Constexpr
 - Boolean function
-- Inline function
 - Array
 - String
 - Reference
