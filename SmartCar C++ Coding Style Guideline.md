@@ -54,6 +54,7 @@ In general, choose names that are meaningful and readable.
   | Get               | Getters                                  |
   | Init              | Inititialization                         |
   | Calc/Find/Compute | Computation                              |
+  | Print             | Print                                    |
 
 * The name of the class should not be duplicated in a method name.
 
@@ -116,7 +117,7 @@ In general, choose names that are meaningful and readable.
 * For operator overloads, put the `&` with the type.
 
   ```C++
-  Coord& operator+=(const Coord& coord);
+  Coord& operator+=(const Coord &coord);
   ```
 
 #### Type Names
@@ -368,7 +369,7 @@ In general, choose names that are meaningful and readable.
 * Use boolean functions if applicable.
 
   ```C++
-  bool FindOneLeftEdge(){
+  bool FindOneLeftEdge() {
     // find one left edge, return false if failed
     return true;
   }
@@ -384,7 +385,7 @@ In general, choose names that are meaningful and readable.
    *
    * <brief description>
    */
-  class PIDController{
+  class PIDController {
   public:
     /**
      * @brief Constructor
