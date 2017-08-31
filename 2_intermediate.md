@@ -966,6 +966,21 @@ class Rect{
 }
 ```
 
+So for a good code practice, we add `m_` before the member of class to state it is the member of class, not the parameters of functions.
+
+```c++
+class Foo{
+  public:
+  Foo(int bar)	//WTF are you doing?
+  }
+  void SetX(int bar){
+    m_bar = bar;
+  }
+  private:
+  int m_bar;
+}
+```
+
 #### Standard Library
 
 All type in standard library are in standard namespace.
