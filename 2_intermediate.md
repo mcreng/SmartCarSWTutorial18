@@ -194,6 +194,233 @@ Notice: actually the return 0 in the `int main()` is for this purpose. If the re
 
 If a single true false value is not enough, you can return a enum value.
 
+#### Reference
+
+Reference is the address of variable, which is meant by `&` operator. First, we need to know memory. Memory is the way our C++ program store variable value, which is store in an address inside the memory pool. When we are getting or setting value of the variable, actually we are accessing its address. 
+
+```c++
+//declare integer x, let's assume its address is 0x123456
+int x = 10;	
+
+//define integer y have same address as x, 0x123456, which mean x and y always have same value. 
+int& y = x;	
+
+//display the value of y, which mean display the value stored in 0x123456 which is 10
+std::cout<<y<<std::endl; 	
+
+//set value of x to 20, which mean set the value stored in 0x123456 to 20
+x = 20;	
+
+//display the value of y, which mean display the value stored in 0x123456 which is 20
+std::cout<<y<<std::endl;  
+
+//set value of y to 50, which mean set the value stored in 0x123456 to 50
+y = 50; 
+
+//display the value of x, which mean display the value stored in 0x123456 which is 50
+std::cout<<x<<std::endl;	
+```
+
+So you can see x and y always have same value.
+
+Note: The memory address of variable is fixed when defined, so the operation `int& y = x ` can only be done in declaration.
+
+##### Pass by Reference VS Pass by Copy
+
+With the above knowledge, you can easily classify what is the different between pass by reference and pass by copy.
+
+![Pass by value actually meaning pass by copy](https://blog.penjee.com/wp-content/uploads/2015/02/pass-by-reference-vs-pass-by-value-animation.gif)
+
+```c++
+#include <iostream>
+
+//this is a pass by reference function
+int addByReference(int& x, int& y){
+  x += y;
+  return x;
+}
+
+//this is a pass by copy function
+int addByCopy(int x, int y){
+  x += y;
+  return x;
+}
+
+int main(){
+  int a = 3, b = 9, c = 3, d = 9;
+  
+  //the two functions have exactly the same operation, so their return value are the same
+  std::cout<<addByReference(a,b)<<std::endl;	//12
+  std::cout<<addByCopy(c,d)<<std::endl;		//12
+  
+  //however, the operation x += y is changing the value of different address, their actual effects are different
+  std::cout<<a<<std::endl;	//12
+  std::cout<<c<<std::endl;	//3
+  return 0;
+}
+```
+
+Why the last two outputs are different?
+
+As we know that, passing parameters to function is like assigning variables, when you do `addByReference(a,b)` , it is doing `int& x = a; int &y = b;`, so integer `x` and `y` have the same address as `a` and `b` respectively. Therefore, when we do `x += y`, it is actually adding the value in address of `b` to address of `a`. That's why after calling the function, the value of `a` is changed.
+
+On the other hand, when you do `addByCopy(c,d)`, it is doing `int x = c; int y = d;`. Although their values are the same, it is creating brand new integers `x` and `y` in a new address in the memory pool. They are just copying the values of `c` and `d` and they are independent to each other now. When we do `x += y`, it is changing the value in address of `x` but not address of `c`. That is why after calling the function, the value of `c` is unchanged.
+
+Little Tips: if you add `const` to the parameter of functions, the function will accept constant as parameter
+
+```c++
+int addByReference(int& x, const int& y){
+  x += y;
+  return x;
+}
+int a = 3;
+addByReference(a,9);	//now it is valid
+```
+
+#### Pointer
+
+##### Pointer Basics
+
+Pointer is a variable type which can store a memory address. Pointer will be useful when we need to deal with variables across function scope. Let us call the variable that "the pointer is pointing to" "pointee". To get the address of a variable, we use `&`. To get the value of pointee, namely dereferencing, we add a `*` before the pointer. For example:
+
+```c++
+//declare a integer x, assume its address is 0x123456
+int x = 12;
+
+//&x is getting the address of x, which this line will print out 0x123456
+std::cout<<&x<<std::endl; //output: 0x123456
+
+//declare a integer pointer pInt pointing to the address of x, which is 0x123456
+int* pInt = &x;
+
+//output the value of pInt, which is 0x123456
+std::cout<<pInt<<std::endl; //output: 0x123456
+
+//output the value of pointee of pInt, which means printing the value in address 0x123456, which is 12
+std::cout<<*pInt<<std::endl; //output: 12
+
+//change the value of x, which mean changing the value in address 0x123456
+x = 24;
+
+//output the value of pointee of pInt, which means printing the value in address 0x123456, which is 24
+std::cout<<*pInt<<std::endl;	//output: 24
+
+//change the value of pointee of pInt to 48, which means changing the value in address 0x123456 to 48
+*pInt = 48;
+
+//print out the value of x, which means printing the value on 0x123456, which is 48
+std::cout<<x<<std::endl;	//output: 48
+```
+
+Note: To declare a pointer with no initial pointee, we can use `NULL` (C style) or `nullptr` (c++0x style). Both of them meaning a pointer pointing to nothing. `nullptr` recommended.
+
+**Be careful, never change the value of null pointer.** This will change the value in a random location inside the memory pool, result in hard fault (the program suddenly stop while running).
+
+```c++
+float* foo = NULL;
+unsigned char* bar = nullptr;
+
+//**never do this, as foo and var are both pointing to nothing**
+*foo = 123;	//result: your program GG
+*bar = 'd';	//result: your program GG
+```
+
+Therefore, you should always check the existence of pointee before dereferencing.
+
+```c++
+if(foo != NULL){
+    *foo = 123;
+}
+if(bar != nullptr){
+    *bar = 'd';
+}
+```
+
+
+
+On class task: make a swap function
+
+```c++
+int a = 3, b = 10;     //a and b can be any value
+//do a swap function
+std::cout<<a<<" "<<b<<std::endl; //10 3
+```
+
+
+
+##### Void Pointer `void*`
+
+`void*` is a pointer which can point to address of any type of variable. In common, `int* ` 's pointee is always a `int`, `float*` 's pointee is always a `float`, and that is how `int*` differ from `float*` , and also for other types of pointer except `void*`. `void*`'s pointee can be any variable type. Notice that before dereferencing void pointer, you need to cast it as a typed pointer.
+
+```c++
+#include <iostream>
+int myInt = 24;
+float myFloat = 0.01;
+void* myPtr = NULL;
+int main(){
+  myPtr = &myInt;
+  std::cout<<&myInt<<" "<<myPtr<<std::endl;	//0x654321 0x654321
+  std::cout<<*(int*)myPtr<<std::endl;		//24
+  *myPtr = 39;								//error
+  *(int*)myPtr = 39;						//myInt successfully become 39
+  myPtr = &myFloat;
+  std::cout<<&myFloat<<" "<<myPtr<<std::endl;//0x654325 0x654325
+  std::cout<<(*myPtr)<<std::endl;			//error
+  return 0;
+}
+```
+
+##### Function Pointer
+
+Every function is stored in a memory address, and when you calling a function, you are running code in that memory address. Therefore, a function is also a pointer and it can be stored as a variable.
+
+```c++
+#include <iostream>
+int main(){
+  std::cout<<(void*)main<<std::endl;	//displace the address of function main
+}
+```
+
+Declare a C style function pointer is a bit annoying, or you can use standard function.
+
+```c++
+//functions.h
+
+void f1(){}
+int f2(){return 1;}
+float f3(bool f){return f;}
+```
+
+```c++
+//C style function pointers
+#include <iostream>
+#include "functions.h"
+
+//<return_type>(*<pointer_name>)(parameters_type) = nullptr;
+void(*ptr1)() = f1;
+int(*ptr2)() = f2;
+float(*ptr3)(bool) = f3;
+
+int main(){
+  void vptr = (void*)f3;							//use of void pointer
+  std::cout<<(float(*)(bool)vptr)(1)<<std::endl;	//casting to function pointer
+  
+  ptr1();	//call the pointee of function pointer
+  return 0;
+}
+```
+
+```c++
+//C++ standard function
+#include <functional>
+#include "functions.h"
+std::function<void()> fptr1 = f1;
+std::function<int()> fptr = f2;
+std::function<float(bool)> fptr = f3;
+
+ptr1();		//call the pointee of function pointer
+```
+
 
 
 ####  Array
@@ -265,11 +492,35 @@ a[10] = 200;	//out of bound, memory leak, program die
 //the value inside [] can only be 0<=integer<10
 ```
 
+##### Array as a Pointer
 
+Array is actually a pointer pointing to its first element, and a string is actually a character pointer pointing to the first character. For example:
+
+```c++
+int int_array[10]={0,1,2,3,4,5,6,7,8,9};
+std::cout<<int_array<<std::endl; //print the address of first element
+std::cout<<*int_array<<std::endl; //print the value of first element, which is 0
+
+char buff[12]="hello world";
+std::cout<<*buff<<std::endl;	//print out h
+```
+
+##### Memory offset
+
+If we plus or minus some value with the pointer, we can access its neighbor, and this is how array works.
+
+```c++
+int int_array[10]={0,1,2,3,4,5,6,7,8,9};
+std::cout<<int_array<<" "<<*int_array<<std::endl;		//0x100000 0
+std::cout<<int_array+1<<" "<<*(int_array+1)<<std::endl;	//0x100004 1
+std::cout<<int_array+2<<" "<<*(int_array+2)<<std::endl;	//0x100008 2
+```
+
+So you can see, `any_array[n]` is totally equivalent to `*(any_array+n)`. Notice that each address is storing 1 byte, so if you plus `n` to the address, the memory offset is `n` times the size of variable, like in the example, the size of integer is 4 byte, so the offset is `n*4`. To get the size of a variable, we can use `sizeof(myVar)`, and so if we do
 
 #### String
 
-String is actually array of characters. They can be used like an array.
+String is actually array of characters. They can be used like an array. So they are actually character pointers.
 
 ```C++
 #include <iostream> 
@@ -308,277 +559,61 @@ String methods (Not for standard string, which can directly use `=` and `+` oper
 | `strcpy(str1,str2)` | copy the content of `str2` to `str1`   |
 | `strcat(str1,str2)` | append the content of `str2` to `str1` |
 
-There are more methods left for you to discover (#
+##### Formatted String `sprintf()` (Print variable to string)
 
-#### Reference
-
-Reference is the address of variable, which is meant by `&` operator. First, we need to know memory. Memory is the way our C++ program store variable value, which is store in an address inside the memory pool. When we are getting or setting value of the variable, actually we are accessing its address. 
-
-```C++
-//declare integer x, let's assume its address is 0x123456
-int x = 10;	
-
-//define integer y have same address as x, 0x123456, which mean x and y always have same value. 
-int& y = x;	
-
-//display the value of y, which mean display the value stored in 0x123456 which is 10
-std::cout<<y<<std::endl; 	
-
-//set value of x to 20, which mean set the value stored in 0x123456 to 20
-x = 20;	
-
-//display the value of y, which mean display the value stored in 0x123456 which is 20
-std::cout<<y<<std::endl;  
-
-//set value of y to 50, which mean set the value stored in 0x123456 to 50
-y = 50; 
-
-//display the value of x, which mean display the value stored in 0x123456 which is 50
-std::cout<<x<<std::endl;	
-```
-
-So you can see x and y always have same value.
-
-Note: The memory address of variable is fixed when defined, so the operation `int& y = x ` can only be done in declaration.
-
-##### Pass by Reference VS Pass by Copy
-
-With the above knowledge, you can easily classify what is the different between pass by reference and pass by copy.
-
-![Pass by value actually meaning pass by copy](https://blog.penjee.com/wp-content/uploads/2015/02/pass-by-reference-vs-pass-by-value-animation.gif)
+The most important string function you need to know is `sprintf()`, stands for string print format. You give a string pointer and after it is a formatted string and parameter list, AKA `sprintf(char* copy_target, const char* foramted_string, ...)`.
 
 ```C++
 #include <iostream>
-
-//this is a pass by reference function
-int addByReference(int& x, int& y){
-  x += y;
-  return x;
-}
-
-//this is a pass by copy function
-int addByCopy(int x, int y){
-  x += y;
-  return x;
-}
-
+using namespace std;
 int main(){
-  int a = 3, b = 9, c = 3, d = 9;
-  
-  //the two functions have exactly the same operation, so their return value are the same
-  std::cout<<addByReference(a,b)<<std::endl;	//12
-  std::cout<<addByCopy(c,d)<<std::endl;		//12
-  
-  //however, the operation x += y is changing the value of different address, their actual effects are different
-  std::cout<<a<<std::endl;	//12
-  std::cout<<c<<std::endl;	//3
+    char* str = nullptr;
+  sprintf(str,"hello world");
+  cout<<str<<endl;	//hello world
+  int x = 12;
+  double y = 3.1415926;
+  char c = 'a';
+  char s[10] = "hello";
+  sprintf(str, "x = %d",x);
+  cout<<str<<endl;	//x = 12
+  sprintf(str, "y =  %f %.2lf (2digit)", y, y);
+  cout<<str<<endl;	//y = 3.1415 3.14 (2digit)
+  sprintf(str, "%c %s",c, s);
+  cout<<str;		//a hello
   return 0;
 }
 ```
 
-Why the last two outputs are different?
+| useful specifiers | description                              |
+| ----------------- | ---------------------------------------- |
+| `%d`              | decimal integer                          |
+| `%u`              | unsigned decimal integer                 |
+| `%x` `%X`         | base 16 integer (lower case and upper case) |
+| `%f`  `%F`        | float (default 6 decimal place)(lower case and upper case) |
+| `%e` `%E`         | scientific notation                      |
+| `l`               | long (for example `%ld` means long int)  |
+| `.`               | precision (for example `%.2f` correct to 2 decimal place) |
+| `%c`              | character                                |
+| `%s`              | string                                   |
+| `%p`              | address                                  |
+| `%%`              | `%` character                            |
 
-As we know that, passing parameters to function is like assigning variables, when you do `addByReference(a,b)` , it is doing `int& x = a; int &y = b;`, so integer `x` and `y` have the same address as `a` and `b` respectively. Therefore, when we do `x += y`, it is actually adding the value in address of `b` to address of `a`. That's why after calling the function, the value of `a` is changed.
+There are more methods left for you to discover (#
 
-On the other hand, when you do `addByCopy(c,d)`, it is doing `int x = c; int y = d;`. Although their values are the same, it is creating brand new integers `x` and `y` in a new address in the memory pool. They are just copying the values of `c` and `d` and they are independent to each other now. When we do `x += y`, it is changing the value in address of `x` but not address of `c`. That is why after calling the function, the value of `c` is unchanged.
-
-Little Tips: if you add `const` to the parameter of functions, the function will accept constant as parameter
-
-```C++
-int addByReference(int& x, const int& y){
-  x += y;
-  return x;
-}
-int a = 3;
-addByReference(a,9);	//now it is valid
-```
-
-#### Pointer
-
-##### Pointer Basics
-
-Pointer is a variable type which can store a memory address. Pointer will be useful when we need to deal with variables across function scope. Let us call the variable that "the pointer is pointing to" "pointee". To get the address of a variable, we use `&`. To get the value of pointee, namely dereferencing, we add a `*` before the pointer. For example:
-
-```C++
-//declare a integer x, assume its address is 0x123456
-int x = 12;
-
-//&x is getting the address of x, which this line will print out 0x123456
-std::cout<<&x<<std::endl; //output: 0x123456
-
-//declare a integer pointer pInt pointing to the address of x, which is 0x123456
-int* pInt = &x;
-
-//output the value of pInt, which is 0x123456
-std::cout<<pInt<<std::endl; //output: 0x123456
-
-//output the value of pointee of pInt, which means printing the value in address 0x123456, which is 12
-std::cout<<*pInt<<std::endl; //output: 12
-
-//change the value of x, which mean changing the value in address 0x123456
-x = 24;
-
-//output the value of pointee of pInt, which means printing the value in address 0x123456, which is 24
-std::cout<<*pInt<<std::endl;	//output: 24
-
-//change the value of pointee of pInt to 48, which means changing the value in address 0x123456 to 48
-*pInt = 48;
-
-//print out the value of x, which means printing the value on 0x123456, which is 48
-std::cout<<x<<std::endl;	//output: 48
-```
-
-Note: To declare a pointer with no initial pointee, we can use `NULL` (C style) or `nullptr` (c++0x style). Both of them meaning a pointer pointing to nothing. `nullptr` recommended.
-
-**Be careful, never change the value of null pointer.** This will change the value in a random location inside the memory pool, result in hard fault (the program suddenly stop while running).
-
-```C++
-float* foo = NULL;
-unsigned char* bar = nullptr;
-
-//**never do this, as foo and var are both pointing to nothing**
-*foo = 123;	//result: your program GG
-*bar = 'd';	//result: your program GG
-```
-
-Therefore, you should always check the existence of pointee before dereferencing.
-
-```C++
-if(foo != NULL){
-    *foo = 123;
-}
-if(bar != nullptr){
-    *bar = 'd';
-}
-```
-
-
-
-On class task: make a swap function
-
-```C++
-int a = 3, b = 10;     //a and b can be any value
-//do a swap function
-std::cout<<a<<" "<<b<<std::endl; //10 3
-```
-
-##### Array as a Pointer
-
-Array is actually a pointer pointing to its first element, and a string is actually a character pointer pointing to the first character. For example:
-
-```C++
-int int_array[10]={0,1,2,3,4,5,6,7,8,9};
-std::cout<<int_array<<std::endl; //print the address of first element
-std::cout<<*int_array<<std::endl; //print the value of first element, which is 0
-
-char buff[12]="hello world";
-std::cout<<*buff<<std::endl;	//print out h
-```
-
-##### Memory offset
-
-If we plus or minus some value with the pointer, we can access its neighbor, and this is how array works.
-
-```C++
-int int_array[10]={0,1,2,3,4,5,6,7,8,9};
-std::cout<<int_array<<" "<<*int_array<<std::endl;		//0x100000 0
-std::cout<<int_array+1<<" "<<*(int_array+1)<<std::endl;	//0x100004 1
-std::cout<<int_array+2<<" "<<*(int_array+2)<<std::endl;	//0x100008 2
-```
-
-So you can see, `any_array[n]` is totally equivalent to `*(any_array+n)`. Notice that each address is storing 1 byte, so if you plus `n` to the address, the memory offset is `n` times the size of variable, like in the example, the size of integer is 4 byte, so the offset is `n*4`. To get the size of a variable, we can use `sizeof(myVar)`, and so if we do
-
-##### Memory Allocation `new`
+#### Memory Allocation `new`
 
 Aside from assigning a reference to a pointer, you can allocate a new memory space for the pointer, it may be a single variable or array. Remember, delete the memory after finishing using it, or you will be wasting memory. If you keep allocating without deleting it, it will result in memory leaks, and the program may crash at anytime.
 
-```C++
+```c++
 int* x = nullptr; 	//deinfe a pointer
 
 x = new int;		//allocate a size of a integers to x
 //some usage for x
 delete x;
 
-x = new int[12];	//allocate a size of 12 integers to x
 //some usage for x
 delete [] x;		//release allocated memory of x
 ```
-
-##### Void Pointer `void*`
-
-`void*` is a pointer which can point to address of any type of variable. In common, `int* ` 's pointee is always a `int`, `float*` 's pointee is always a `float`, and that is how `int*` differ from `float*` , and also for other types of pointer except `void*`. `void*`'s pointee can be any variable type. Notice that before dereferencing void pointer, you need to cast it as a typed pointer.
-
- ```C++
-#include <iostream>
-int myInt = 24;
-float myFloat = 0.01;
-void* myPtr = NULL;
-int main(){
-  myPtr = &myInt;
-  std::cout<<&myInt<<" "<<myPtr<<std::endl;	//0x654321 0x654321
-  std::cout<<*(int*)myPtr<<std::endl;		//24
-  *myPtr = 39;								//error
-  *(int*)myPtr = 39;						//myInt successfully become 39
-  myPtr = &myFloat;
-  std::cout<<&myFloat<<" "<<myPtr<<std::endl;//0x654325 0x654325
-  std::cout<<(*myPtr)<<std::endl;			//error
-  return 0;
-}
- ```
-
-##### Function Pointer
-
-Every function is stored in a memory address, and when you calling a function, you are running code in that memory address. Therefore, a function is also a pointer and it can be stored as a variable.
-
-```C++
-#include <iostream>
-int main(){
-  std::cout<<(void*)main<<std::endl;	//displace the address of function main
-}
-```
-
-Declare a C style function pointer is a bit annoying, or you can use standard function.
-
-```C++
-//functions.h
-
-void f1(){}
-int f2(){return 1;}
-float f3(bool f){return f;}
-```
-
-```C++
-//C style function pointers
-#include <iostream>
-#include "functions.h"
-
-//<return_type>(*<pointer_name>)(parameters_type) = nullptr;
-void(*ptr1)() = f1;
-int(*ptr2)() = f2;
-float(*ptr3)(bool) = f3;
-
-int main(){
-  void vptr = (void*)f3;							//use of void pointer
-  std::cout<<(float(*)(bool)vptr)(1)<<std::endl;	//casting to function pointer
-  
-  ptr1();	//call the pointee of function pointer
-  return 0;
-}
-```
-
-```C++
-//C++ standard function
-#include <functional>
-#include "functions.h"
-std::function<void()> fptr1 = f1;
-std::function<int()> fptr = f2;
-std::function<float(bool)> fptr = f3;
-
-ptr1();		//call the pointee of function pointer
-```
-
-
-
 #### Data Structure
 
 This chapter we will talk about `enum`, `enum struct` and `struct`.
