@@ -59,7 +59,6 @@ SpiMaster::SpiMaster(const Config &config)
 		: m_sin(nullptr),
 		  m_sout(nullptr),
 		  m_sck(nullptr),
-
 		  m_is_init(false)
 {
 	/* OMITTED */
@@ -111,11 +110,45 @@ Pin::Config::MuxControl Mk60f15Lqfp144::GetSpiSinMux(const Pin::Name pin)
 }
 ```
 
+In `Pin::Config::MuxControl::kAlt#`, the pins are configured to have the functionalities of `ALT#` in the pin assignment. 
+
 The pin configurations are similar for other protocols, just that the functions for them are located in different places.
 
 ### GPIO
 
+GPIO, which stands for **General-purpose Input/Output**, is a generic pin which allow either high (1) or low (0) state. In GPIO, pins can be further divided into an input pin (**GPI**) and an output pin (**GPO**).
+
+Location: `libbase/k60/gpio.h`
+
 #### GPI
+
+A GPI (**General-purpose Input**) pin allows to be read with either high or low state.
+
+| Config      | Datatype                 | Description                              |
+| ----------- | ------------------------ | ---------------------------------------- |
+| `pin`       | `Pin::Name`              | Pin name                                 |
+| `interrupt` | `Pin::Config::Interrupt` | Could be `kDisable`, `kRising`, `kFalling` and `kBoth` for no interrupt, interrupt at rising edge, interrupt at falling edge and interrupt at both rising and falling edge |
+| `config`    | `std::bitset<6>`         | Specifiy the configuration of the pin, either allow `kOpenDrain`, `kPassiveFilter`, `kPullEnable` and `kPullUp`  for open drain, low pass filter and pull-up/pull-down. |
+| `isr`       | `void(Gpi*)`             | Gpi listener                             |
+
+Sample code:
+
+```C++
+void GPIListener(Gpi* gpi) {
+    if (gpi->Get()) {
+        // if high
+    } else {
+        // if low
+    }
+}
+
+Gpi::Config ConfigGPI;
+ConfigGPI.pin = Pin::Name::kPtb0;
+ConfigGPI.interrupt = Pin::Config::Interrupt::kBoth;
+ConfigGPI.config.set(Pin::Config::kPassiveFilter);
+ConfigGPI.isr = listener;
+Gpi gpi(ConfigGPI);
+```
 
 #### GPO
 
