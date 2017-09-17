@@ -1,5 +1,5 @@
 # C++ Programming - Basic
-Author: Peter Tse ([mcreng](www.github.com/mcreng))
+Author: Peter Tse ([mcreng](http://www.github.com/mcreng))
 
 This section is mainly intended for **non**-software members during the internal competition period.
 
