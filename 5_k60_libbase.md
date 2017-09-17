@@ -176,6 +176,30 @@ gpo.Turn(); // toggle output to 0
 
 ### PWM
 
+PWM, which stands for **Pulse-Width Modulation**, is essentially a signal of square wave, which components like motors and servos use it to input the percentage power/angle.
+
+![Image result for pwm position width](https://qph.ec.quoracdn.net/main-qimg-e2d124568f8486e50c681eab5e6ed69a)
+Location: `libbase/k60/ftm_pwm.h`
+
+| Config      | Datatype    | Description                              |
+| ----------- | ----------- | ---------------------------------------- |
+| `pin`       | `Pin::Name` | Pin name                                 |
+| `period`    | `uint32_t`  | Period of a cycle                        |
+| `pos_width` | `uint32_t`  | Pulse width in a cycle                   |
+| `precision` | `Precision` | Unit for period and pulse width, either in us (default) or in ns |
+| `alignment` | `Alignment` | Alignment of PWM signals, either with edge of period or center of period |
+
+Sample code:
+
+```c++
+FtmPwm::Config ConfigPWM;
+ConfigPWM.pin = Pin::Name::kPta0;
+ConfigPWM.period = 10;
+ConfigPWM.pos_width = 2;
+ConfigPWM.alignment = FtmPwm::Config::Alignment::kEdge;
+FtmPwm pwm(ConfigPWM);
+// the pin PTA0 is now in 20% modulation with 10us cycle
+```
 ### ADC
 
 ### UART
@@ -249,7 +273,7 @@ Location : `libbase/k60/flash.h`
 | `sectorStartIndex` | `uint8_t` | start sector, change only if you are sure what are you doing |
 | `size`             | `size_t`  | memory size, default is 4096 Byte, don't waste memory |
 
-###### Read/Write to Flash
+**Read/Write to Flash**
 
 If you have only one type of variables to save, you can directly pass an array pointer to the function. 
 
