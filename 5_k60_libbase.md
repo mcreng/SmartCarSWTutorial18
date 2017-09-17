@@ -135,7 +135,7 @@ Sample code:
 
 ```C++
 void GPIListener(Gpi* gpi) {
-    if (gpi->Get()) {
+    if (gpi->Get()) { // get state of GPI
         // if high
     } else {
         // if low
@@ -151,6 +151,28 @@ Gpi gpi(ConfigGPI);
 ```
 
 #### GPO
+
+A GPO (**General-Purpose Output**) pin allows to be written with either high or low state.
+
+| Config    | Datatype         | Description                              |
+| --------- | ---------------- | ---------------------------------------- |
+| `pin`     | `Pin::Name`      | Pin name                                 |
+| `config`  | `std::bitset<6>` | Specifiy the configuration of the pin, either allow `kHighDriveStrength` and `kSlowSlewRate` for low/high drive strength and slow/fast slew rate |
+| `is_high` | `bool`           | Default output state of the pin          |
+
+Sample code:
+
+```c++
+Gpo::Config ConfigGPO;
+ConfigGPO.pin = Pin::Name::kPtb0;
+ConfigGPO.is_high = false
+Gpo gpo(ConfigGPO);
+
+gpo.Set(true); // set output to 1
+gpo.Set(false); // set output to 0
+gpo.Turn(); // toggle output to 1
+gpo.Turn(); // toggle output to 0
+```
 
 ### PWM
 
