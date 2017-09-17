@@ -75,8 +75,8 @@ void SpiMaster::InitPin(const Config &config)
 	if (config.sin_pin != Pin::Name::kDisable)
 	{
 		Pin::Config sin_config;
-		sin_config.pin = config.sin_pin;
-		sin_config.mux = PINOUT::GetSpiSinMux(config.sin_pin);
+		sin_config.pin = config.sin_pin; // specifies Pin
+		sin_config.mux = PINOUT::GetSpiSinMux(config.sin_pin); // specifies Alt
 		m_sin = Pin(sin_config);
 	}
   
@@ -134,7 +134,7 @@ A GPI (**General-purpose Input**) pin allows to be read with either high or low 
 Sample code:
 
 ```C++
-void GPIListener(Gpi* gpi) {
+void GPIListener(Gpi *gpi) {
     if (gpi->Get()) { // get state of GPI
         // if high
     } else {
@@ -231,6 +231,36 @@ adc.GetResultF(); // get result in float [0, 3.3]
 adc.StopConvert(); // stop ADC
 ```
 ### UART
+
+UART, which means **Universal Asynchronous Receiver-Transmitter**, is a protocol for serial communication between modules, usually used in Bluetooth for the case of SmartCar.
+
+Location: `libsc/k60/uart_device.h`
+
+| Config      | Datatype                          | Description                              |
+| ----------- | --------------------------------- | ---------------------------------------- |
+| `id`        | `uint8_t`                         | UART id                                  |
+| `baud_rate` | `Uart::Config::BaudRate`          | Baud rate of UART communication, usually use `k115200` |
+| `rx_isr`    | `bool(const Byte*, const size_t)` | UART listener, return true if the data is consumed |
+
+Sample code:
+
+```C++
+bool UARTListener(const Byte *data, const size_t size) { // for RX
+  /* ... */
+  return true;
+}
+
+UartDevice::Config ConfigUART;
+ConfigUART.id = 0;
+ConfigUART.baud_rate = Uart::Config::BaudRate::k115200;
+ConfigUART.isr = UARTListener;
+UartDevice uart(ConfigUART);
+
+// for TX
+uart.SendStr("Hello World");
+Byte byte = 20;
+uart.SendBuffer(&Byte, 1);
+```
 
 ---
 
