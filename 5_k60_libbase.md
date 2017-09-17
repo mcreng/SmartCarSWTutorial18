@@ -208,7 +208,7 @@ FtmPwm pwm(ConfigPWM);
 
 ### PIT
 
-PIT,  Periodic Interrupt Timer, a listener function will be triggered periodically when the timer count a specific time, during the program run time. Be careful, when PIT is triggered, the normal program rundown will pause. Therefore, if PIT is called too frequently, your program cannot run.
+PIT, which means **Periodic Interrupt Timer**, is a listener function will be triggered periodically when the timer count a specific time, during the program run time. Be careful, when PIT is triggered, the normal program rundown will pause. Therefore, if PIT is called too frequently, your program cannot run.
 
 Location: `libbase/k60/pit.h`
 
