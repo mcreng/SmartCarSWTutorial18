@@ -205,7 +205,7 @@ FtmPwm pwm(ConfigPWM);
 ADC, which means **Analog Digital Converter**, converts analog signals into digital signals.
 
 | Config               | Datatype               | Description                              |
-| -------------------- | ---------------------- | ---------------------------------------- |
+| :------------------- | :--------------------- | ---------------------------------------- |
 | `pin`                | `Pin::Name`            | Pin name (override `adc`)                |
 | `adc`                | `Adc::Name`            | Adc name (can specify certain ADC for pins that support multiple ADCs) |
 | `is_diff_mode`       | `bool`                 | Determine whether the ADC uses differential conversion |
