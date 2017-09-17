@@ -4,7 +4,114 @@
 
 ### Introduction
 
+This sections include controls to basic peripherals provided by the MCU. In your SmartCar development, you may seldom use these configurations, but these can help you a lot since you have a greater freedom using libbase than libsc. Understanding these could also allow you to develop the project with a more appropriate mindset.
+
 ### Pin Configuration
+
+There are 144 pins in a k60 chip and each pin has a specific role. Consider the following excerpt on pin assignments of k60 chips.
+
+![img](https://i.imgur.com/zaqsUqe.png)
+
+Each pin has a default functionality, but one can alter its functionality through pin configuration. Consider pin #1, its default is a pin for ADC (Analog-Digital Converter), but you can alter it by changing it to a GPIO pin (PTE0), a SPI pin and a UART pin, etc.
+
+The pin configurations are defined in `libsccc/inc/libsc/k60/config/<group name>.h` For example for `2017_inno.h`, we have the following excerpt.
+
+```C++
+#define LIBSC_ST7735R_RST libbase::k60::Pin::Name::kPte3
+#define LIBSC_ST7735R_DC libbase::k60::Pin::Name::kPte0
+#define LIBSC_ST7735R_CS libbase::k60::Pin::Name::kPte4
+#define LIBSC_ST7735R_SDAT libbase::k60::Pin::Name::kPte1
+#define LIBSC_ST7735R_SCLK libbase::k60::Pin::Name::kPte2
+```
+
+Here it defines the five pins of `ST7735R` to correspond to the five pins (according to the pin names) of the chip. Since the module uses SPI (you will learn it in later sections), we will find a `SpiMaster` definition in `libsccc/inc/libsc/st7735r.h`.
+
+```C++
+SpiMaster m_spi;
+```
+
+When the class `St7735r` is being constructed, the following member initialization is triggered.
+
+```C++
+St7735r::St7735r(const Config &config)
+		: m_spi(GetSpiConfig()) /* ... */ { /* ... */ }
+```
+
+The function `GetSpiConfig()` is defined in `libsccc/src/libsc/st7735r.cpp`
+
+```C++
+St7735r::SpiMaster::Config GetSpiConfig()
+{
+	St7735r::SpiMaster::Config config;
+	config.sout_pin = LIBSC_ST7735R_SDAT;
+	config.sck_pin = LIBSC_ST7735R_SCLK;
+	/* OMITTED */
+	return config;
+}
+```
+
+We can see the pin is being used to configure the module by passing it to SPI configurations.
+
+As a `SpiMaster` class is created, its constructor located at `libsccc/src/libbase/k60/spi_master.cpp`is called.
+
+```C++
+SpiMaster::SpiMaster(const Config &config)
+		: m_sin(nullptr),
+		  m_sout(nullptr),
+		  m_sck(nullptr),
+
+		  m_is_init(false)
+{
+	/* OMITTED */
+	InitPin(config);
+	/* OMITTED */
+}
+```
+
+Inside `InitPin(const Config)`,  we have
+
+```C++
+void SpiMaster::InitPin(const Config &config)
+{
+	if (config.sin_pin != Pin::Name::kDisable)
+	{
+		Pin::Config sin_config;
+		sin_config.pin = config.sin_pin;
+		sin_config.mux = PINOUT::GetSpiSinMux(config.sin_pin);
+		m_sin = Pin(sin_config);
+	}
+  
+  /* OMITTED */
+}
+```
+
+And finally, the function `PINOUT::GetSpiSinMux(Pin::Name)` in  `libsccc/src/libbase/k60/pinout/<mcu_name>.cpp` allows one to alter the functionalities of the pins.
+
+```C++
+Pin::Config::MuxControl Mk60f15Lqfp144::GetSpiSinMux(const Pin::Name pin)
+{
+	switch (pin)
+	{
+	default:
+		assert(false);
+		// no break
+
+	case Pin::Name::kPta17:
+	case Pin::Name::kPtb17:
+	case Pin::Name::kPtb23:
+	case Pin::Name::kPtc7:
+	case Pin::Name::kPtd3:
+	case Pin::Name::kPtd14:
+	case Pin::Name::kPte3:
+		return Pin::Config::MuxControl::kAlt2;
+
+	case Pin::Name::kPte1:
+		return Pin::Config::MuxControl::kAlt7;
+	}
+}
+```
+
+The pin configurations are similar for other protocols, just that the functions for them are located in different places.
 
 ### GPIO
 
