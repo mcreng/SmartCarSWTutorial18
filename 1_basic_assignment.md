@@ -1,6 +1,6 @@
 # C++ Programming - Basic - Assignment
 
-Author: Peter Tse ([mcreng](www.github.com/mcreng))
+Author: Peter Tse ([mcreng](http://www.github.com/mcreng))
 
 This assignment should be attempted by **all** members, regardless of being a software/non-software members in internal competition period.
 

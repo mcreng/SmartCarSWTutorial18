@@ -1,6 +1,6 @@
 # SmartCar Software Tutorial
 
-Author: Peter Tse ([mcreng](www.github.com/mcreng)), Dipsy Wong ([dipsywong98](www.github.com/dipsywong98))
+Author: Peter Tse ([mcreng](http://www.github.com/mcreng)), Dipsy Wong ([dipsywong98](http://www.github.com/dipsywong98))
 
 This is a repository for the upcoming 2018 SmartCar Software Tutorial materials. The following is the syllabus.
 

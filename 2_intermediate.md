@@ -1,6 +1,6 @@
 # C++ Programming - Intermediate
 
-Author: Dipsy Wong ([dipsywong98](www.github.com/dipsywong98))
+Author: Dipsy Wong ([dipsywong98](http://www.github.com/dipsywong98))
 
  #### Preprocessor directives
 

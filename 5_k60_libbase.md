@@ -1,6 +1,6 @@
 # k60 Control - libbase
 
-Author: Peter Tse ([mcreng](www.github.com/mcreng)), Dipsy Wong ([dipsywong98](www.github.com/dipsywong98))
+Author: Peter Tse ([mcreng](http://www.github.com/mcreng)), Dipsy Wong ([dipsywong98](http://www.github.com/dipsywong98))
 
 ### Introduction
 
