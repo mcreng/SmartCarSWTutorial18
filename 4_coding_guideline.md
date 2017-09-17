@@ -93,7 +93,7 @@ In general, choose names that are meaningful and readable.
 * The parameter name can also be the initial of its type.
 
   ```C++
-  void genPath(Featuer f);
+  void genPath(Feature f);
   ```
 
 ##### Pointers
@@ -202,7 +202,7 @@ In general, choose names that are meaningful and readable.
 * It is preferable to declare variables with similar purpose in the same line, one per line if not applicable.
 
   ```C++
-  Edge leftEdge, rightEdge;
+  int leftCount = 0, rightCount = 0;
   ```
 
 #### Indentation
@@ -417,6 +417,17 @@ In general, choose names that are meaningful and readable.
   * Use `inline` if appropriate
 
 * Sections of `public`, `protected` and `private` should be declared in said order.
+
+* The parameters in class constructors and the member attributes should have different names. Use `m_` to indicate the variable is a member attribute.
+
+  ```C++
+  class Motor {
+  public:
+    Motor(int pow) : m_pow(pow) {}
+  private:
+    int m_pow;
+  }
+  ```
 
 * Inherited class should have the name of the base class as part of its name.
 
