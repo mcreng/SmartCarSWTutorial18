@@ -2,7 +2,7 @@
 
 # C++ Programming - Advanced
 
-## Author: Peter Tse (mcreng)
+Author: Peter Tse ([mcreng](www.github.com/mcreng))
 
 Most of you may find this section less useful than the previous ones. Note that this section is target to those who wish to have a better understanding the smart car libraries (*libsccc*) since previous members have use the following skills to construct them. This section would be revolving around the concept of *class* we introduced in *Intermediate* tutorial and build upon it.
 

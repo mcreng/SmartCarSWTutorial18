@@ -1,6 +1,6 @@
 # C++ Programming - Advanced - Assignment
 
-## Author: Peter Tse (mcreng)
+Author: Peter Tse ([mcreng](www.github.com/mcreng))
 
 ### Introduction
 

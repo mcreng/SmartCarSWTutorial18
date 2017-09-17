@@ -1,6 +1,6 @@
 # SmartCar C++ Coding Style Guideline
 
-## Author: Peter Tse (mcreng)
+Author: Peter Tse ([mcreng](www.github.com/mcreng))
 
 This guideline is written in reference to *C++ Coding Standards and Style Guide* by NASA in 2005.
 
