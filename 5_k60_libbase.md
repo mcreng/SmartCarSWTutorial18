@@ -112,7 +112,7 @@ Pin::Config::MuxControl Mk60f15Lqfp144::GetSpiSinMux(const Pin::Name pin)
 
 In `Pin::Config::MuxControl::kAlt#`, the pins are configured to have the functionalities of `ALT#` in the pin assignment. 
 
-The pin configurations are similar for other protocols, just that the functions for them are located in different places.
+The pin configurations are similar for other protocols, just that the functions for them are located in different places (located at `InitPin(Pin::Name)` function of respective library).
 
 ### GPIO
 
@@ -193,7 +193,7 @@ Sample code:
 
 ```c++
 FtmPwm::Config ConfigPWM;
-ConfigPWM.pin = Pin::Name::kPta0;
+ConfigPWM.pin = Pin::Name::kPta0; // need Pin with Ftm functionality
 ConfigPWM.period = 10;
 ConfigPWM.pos_width = 2;
 ConfigPWM.alignment = FtmPwm::Config::Alignment::kEdge;
@@ -202,6 +202,34 @@ FtmPwm pwm(ConfigPWM);
 ```
 ### ADC
 
+ADC, which means **Analog Digital Converter**, converts analog signals into digital signals.
+
+| Config               | Datatype               | Description                              |
+| -------------------- | ---------------------- | ---------------------------------------- |
+| `pin`                | `Pin::Name`            | Pin name (override `adc`)                |
+| `adc`                | `Adc::Name`            | Adc name (can specify certain ADC for pins that support multiple ADCs) |
+| `is_diff_mode`       | `bool`                 | Determine whether the ADC uses differential conversion |
+| `resolution`         | `Resolution`           | Resolution of the ADC, determines the output type, either 8, 10, 12 or 16 bit |
+| `speed`              | `Speed`                | Speed of the ADC                         |
+| `is_continuous_mode` | `bool`                 | Allow continuous conversion (?)          |
+| `avg_pass`           | `AveragePass`          | Number of sample average used for output |
+| `conversion_isr`     | `void(Adc*, uint16_t)` | Listener when a conversion is finished   |
+
+Sample code:
+
+```c++
+Adc::Config ConfigADC;
+ConfigADC.adc = Adc::Name::kAdc3Ad6A; // ADC3 AD6A (ADC3_SE6a in Pta6)
+ConfigADC.speed = Adc::Config::SpeedMode::kExSlow;
+ConfigADC.is_continuous_mode = true;
+ConfigADC.avg_pass = Adc::Config::AveragePass::k32;
+Adc adc(ConfigADC);
+
+adc.StartConvert(); // start ADC
+adc.GetResult(); // get result in int
+adc.GetResultF(); // get result in float [0, 3.3]
+adc.StopConvert(); // stop ADC
+```
 ### UART
 
 ---
