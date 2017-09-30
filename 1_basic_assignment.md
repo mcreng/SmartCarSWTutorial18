@@ -86,6 +86,11 @@ It is **recommended** to use Eclipse to do your programming because in SmartCar 
   * Mac OS-X: http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/neon/1/eclipse-cpp-neon-1-macosx-cocoa-x86_64.tar.gz
 * Install MinGW to compile your C++ programs
   * Windows: https://sourceforge.net/projects/mingw/files/Installer/mingw-get-setup.exe/download
+* Add MinGW to your PATH
+  * Windows Settings -> Edit the system environment variables
+  * Advanced -> Environment Variables...
+  * For 'User variables for <username>', press 'Edit' on variable 'Path'
+  * 'New' -> Put in the path of MinGW\bin, usually in `C:\MinGW\bin`.
 * Open Eclipse
   * File -> New -> C++ Project
   * Change project name/location
