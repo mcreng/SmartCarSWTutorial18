@@ -43,6 +43,8 @@ This is a repository for the upcoming 2018 SmartCar Software Tutorial materials.
 
 ## k60 Control
 
+### set up eclipse
+
 ### libbase
 
 - GPIO
@@ -58,3 +60,6 @@ This is a repository for the upcoming 2018 SmartCar Software Tutorial materials.
 - Camera
 - Encoder
 - Bluetooth
+
+## Git
+
