@@ -174,6 +174,6 @@ Try to build the project, if no error, proceed to 5. Debugger Setting
 - Uncheck [Enable semihosting]
 - [Apply]
 
-### 6. Done and Enjoy Your Smart Car Journey 😘
+### 6. Done and Enjoy Your SmartCar Journey 😘
 
 Whenever you want to flash program, clean project -> build project -> click the debugger
