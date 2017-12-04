@@ -38,9 +38,9 @@ Option2: Open git bash program, type
 cd "you/dir/name"
 ```
 
-### Clone Repo
+###Clone Repo
 
-​    
+
 
 Upload and download 
 
