@@ -3,9 +3,10 @@
 Author: Dipsy Wong ([dipsywong98](http://www.github.com/dipsywong98)) (by copying and pasting old tutorials)
 
 This section will cover how to set up eclipse for flashing program to MCU and setting up the development environment
+Video: https://youtu.be/v834HF_Uha4
 
 If you want to set up eclipse for console program, please refer to 
-C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18/blob/master/1_basic_assignment.md
+https://github.com/mcreng/SmartCarSWTutorial18/blob/master/1_basic_assignment.md
 
 ### 1.Download and Install the Essential Software
 
@@ -18,6 +19,9 @@ C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18/blob/master/1_basic_assignment.
   - windows: http://gnuwin32.sourceforge.net/packages/make.htm
   - mac:https://code.google.com/archive/p/rudix/downloads
 ### 2. Install Plug-in for Eclipse
+
+https://youtu.be/v834HF_Uha4?t=35s
+
 - GNU ARM eclipse Plugins
 
   - [Help]->[Install New Software...]
@@ -35,6 +39,8 @@ C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18/blob/master/1_basic_assignment.
     - Press [Next]->[Next]->Accept license agreement & [finish]
 
 ### 3. Library Setting
+
+https://youtu.be/v834HF_Uha4?t=2m29s
 
 #### 3.1 Download the Library by Git Pull
 
@@ -70,6 +76,8 @@ C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18/blob/master/1_basic_assignment.
   ![3.3.2](https://raw.githubusercontent.com/mcreng/SmartCarSWTutorial18/master/img/eclipse/3.3.2.PNG)
 
 #### 3.4 Properties Setting
+
+https://youtu.be/v834HF_Uha4?t=5m
 
 - RightClick [libsccc] on [Project Explorer] tab -> [Properties]
 - Goto [C\C++ Build]
@@ -107,6 +115,7 @@ C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18/blob/master/1_basic_assignment.
 ### 4. Project Setting
 
 whenever you want to create a new project for programming smart car, you can start from this section. It is always a good measure to have a spare project for testing.
+https://youtu.be/v834HF_Uha4?t=9m
 
 #### 4.1 Create New Project
 
@@ -173,6 +182,7 @@ Goto [C/C++ Build]
 ### 5 Debugger setting
 
 (After you finish **building the project** without error and **refresh project**)
+https://youtu.be/v834HF_Uha4?t=17m27s
 
 #### 5.1 New Debug Config
 
@@ -220,6 +230,7 @@ If you see this error message, it means you successfully set up eclipse (this er
 ### 6. Done and Enjoy Your SmartCar Journey 😘
 
 Whenever you want to flash program, clean project -> build project -> click the debugger
+![6](https://raw.githubusercontent.com/mcreng/SmartCarSWTutorial18/master/img/eclipse/6.PNG)
 
 ### Extra Tips When Facing Errors
 
