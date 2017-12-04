@@ -21,15 +21,17 @@ https://github.com/mcreng/SmartCarSWTutorial18/blob/master/1_basic_assignment.md
 - GNU ARM eclipse Plugins
 
   - [Help]->[Install New Software...]
+    ![2](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\2.PNG)
   - Type http://gnuarmeclipse.sourceforge.net/updates in the textbox next to [Work with] label
     - Press Enter
     - Check the item [GNU ARM C/C++] in the CheckedListBox below
+      ![2.1](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\2.1.PNG)
     - Press [Next]->[Next]->Accept license agreement & [finish]
 - EGit
   - [Help]->[Install New Software...]
   - Type http://download.eclipse.org/egit/updates in the textbox next to [Workwith] label
     - Press Enter
-    - Check the items [Eclipse Git Team Provider] & [JGit] in the CheckedListBox below
+    - Check the items [Git integration for Eclipse] & [Java implementation of Git] in the CheckedListBox below
     - Press [Next]->[Next]->Accept license agreement & [finish]
 
 ### 3. Library Setting
@@ -37,39 +39,48 @@ https://github.com/mcreng/SmartCarSWTutorial18/blob/master/1_basic_assignment.md
 #### 3.1 Download the Library by Git Pull
 
 - [Window]->[Open Perspective]->[Other...]->Select [Git]->[OK]
+  ![3.1.1](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.1.1.PNG)
 - Copy https://github.com/hkust-smartcar/libsccc.git (Library)
   - Click [Git Repositories] tab
   - { Ctrl + V } / RightClick & [Paste Repository Path or URI]
   - [Next] -> [Next] -> [Finish]
+    ![3.1.4](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.1.4.PNG)
 - Right Click [libsccc] -> [Pull]
 
 #### 3.2 Import the Library to Eclipse
 
 - Goto [C/C++ perspective] on the top-right corner
-- RightClick blank space on [Project Explorer] tab
+  ![3.2.1](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.2.1.PNG)
+- RightClick blank space on [Project Explorer] tab![3.2.2](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.2.2.PNG)
 - [C/C++ : Existing Code as Makefile Project] -> [Next]
+  ![3.2.3](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.2.3.PNG)
 - Select Cross GCC
 - Name the new project as `libsccc`
 - Set the existing code location
 - [Finish]
+  ![3.2.4](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.2.4.PNG)
 
 #### 3.3 Discovery Option Setting
 
 - [Window] -> [Preferences] -> [C/C++ : Property Pages Settings]
+  ![3.3.2](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.3.1.PNG)
 - Check [Display “Discovery Options” page]
 - [Apply]
 - [OK]
+  ![3.3.2](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.3.2.PNG)
 
 #### 3.4 Properties Setting
 
 - RightClick [libsccc] on [Project Explorer] tab -> [Properties]
 - Goto [C\C++ Build]
   - Uncheck [Generate Makefiles automatically]
+    ![3.4.0](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.4.0.PNG)
 
   - Goto [Behavior] tab
     - Uncheck [Stop on first build error]
     - Check [Enable parallel build] (Optional)
   - [Apply]
+    ![3.4.1](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.4.1.PNG)
 
 
 - Goto [C/C++ Build : Discovery Options]
@@ -79,6 +90,7 @@ https://github.com/mcreng/SmartCarSWTutorial18/blob/master/1_basic_assignment.md
   - Compiler invocation command : `arm-none-eabi-g++`
   - Append ` –std=gnu++11` to Compiler invocation argument
   - If you can's see the options, make the window full screen
+    ![3.4.2](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.4.2.PNG)
 
 
 - Goto [C/C++ Build : Environment]
@@ -87,8 +99,9 @@ https://github.com/mcreng/SmartCarSWTutorial18/blob/master/1_basic_assignment.md
   - [Add...] -> Name: `SCCC_CONFIG` -> Value: `2017_INNO`
   - Append `{ Path of GNU Tools for ARM folder }\bin` to `[PATH]` Variable
   - Append `{ Path of GNU Make folder }\bin` to `[PATH]` Variable
-- [Apply]
+  - [Apply]![img](file:///C:/Users/dipsy/Desktop/ROBO/SmartCarSWTutorial18/img/eclipse/3.4.3.PNG?lastModify=1512410959)
 - **Build the library**
+  ![3.4.5](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\3.4.5.PNG)
 
 
 ### 4. Project Setting
@@ -98,12 +111,15 @@ whenever you want to create a new project for programming smart car, you can sta
 #### 4.1 Create New Project
 
 - Right-click on [Project Explorer] -> [New] -> [C++ Project]
+  ![4.1.1](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\4.1.1.PNG)
   - Choose project name, don't include white space or you will GG
   - Project Type: [Executable : Empty Project], Toolchains: [Cross GCC]
+    ![4.1.2](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\4.1.2.PNG)
   - -> [Next] -> [Next]
   - Cross compiler prefix: `arm-none-eabi-`
   - Cross compiler path: `{ Path to GNU Tools for ARM }`
 - [Finish]
+  ![4.1.3](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\4.1.3.PNG)
 
 #### 4.2 Property Setting
 
@@ -111,11 +127,13 @@ Goto [C/C++ Build]
 
 - Goto [Builder Settings] tab
   - Remove `Debug` from Build directory
+    ![4.2.1](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\4.2.1.PNG)
 - repeat 3.4
 - Goto [C/C++ Build : Environment]
   - [Add...] -> Name: `LIBSCCC_BIN_PATH` -> Value: `{ Path of library folder }\lib`
   - [Add...] -> Name: `LIBSCCC_INC_PATH` -> Value: `{ Path of library folder }\inc`
 - [Apply]
+  ![4.2.2](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\4.2.2.PNG)
 
 **Remember that variable [SCCC_CONFIG] of both library and your own project must be the same.**
 
@@ -125,6 +143,7 @@ Goto [C/C++ Build]
   - Goto [Includes] tab
     - Select Languages: [GNU C++]
     - [Add....] -> [Workspace...] -> Select [libsccc : inc]-> [OK] -> [OK]
+      ![4.3](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\4.3.PNG)
 
 
 #### 4.4 Download linker's script, makefile and main.cpp
@@ -132,6 +151,7 @@ Goto [C/C++ Build]
 - https://drive.google.com/drive/u/0/folders/0B-KAbvJ3lRuIREhJQzllSy1iZjQ
 
 - Download, extract and put to your root folder
+  ![4.4](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\4.4.PNG)
 
 - Don't change this part unless you know what you are doing
 
@@ -158,8 +178,10 @@ Goto [C/C++ Build]
 
 - Press the triangle next to a “BUG”
 - [Debug Configurations...]
+  ![5.1_ex](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\5.1_ex.PNG)
 - RightClick [GDB SEGGERJ-Link Debugging
 - [New]
+  ![5.1](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\eclipse\5.1.PNG)
 
 #### 5.2 Select Binary
 
