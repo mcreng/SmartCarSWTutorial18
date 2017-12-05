@@ -233,11 +233,12 @@ https://youtu.be/v834HF_Uha4?t=17m27s
 #### 5.3 Select MCU and J-Link
 
 - Goto [Debugger] tab
-- Server Executable: {path to JLinkGDB}\JLinkGDBServerCL.exe (For window, it is under C:\Program Files (x86)\SEGGER\\\<Jlink version>\JLinkGDBServerCL.exe)
-- Device name: “MK60FN1M0xxx15” (MCU)
+- Server Executable: `{path to JLink}\JLinkGDBServerCL.exe`
+  (For window, it is under C:\Program Files (x86)\SEGGER\\\<Jlink version>\JLinkGDBServerCL.exe)
+- Device name: `MK60FN1M0xxx15` (MCU)
 - SWD (small J) or JTAG(J-Link) (big J)
 - Uncheck [Allocate console for semihosting and SWO]
-- Client Executable: {path to GNU for ARM}\bin\arm-none-eabi-gdb.exe
+- Client Executable: `{path to GNU for ARM}\bin\arm-none-eabi-gdb.exe`
 
   ![5.3](https://raw.githubusercontent.com/mcreng/SmartCarSWTutorial18/master/img/eclipse/5.3.PNG)
 
