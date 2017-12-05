@@ -2,32 +2,44 @@
 
 Author: Dipsy Wong ([dipsywong98](http://www.github.com/dipsywong98))
 
-### What is Git
+### 1. What is Git
 
 Git is a "Google drive" for coders with version control, it can help the collaboration between coders. Github is just one of the "cloud service provider" and we are going to use it. You can also use git locally without a cloud (actually it is called a remote) for your own version control.
 
-### How it works
+### 2. How it works
 
 The most important concept is "commit". A commit is actually a record of all your codes. It can act as a roll back point when you do something sucks. All the versions are just all the commits. Every time you call commit, git takes a photo of you code, and records it as a newer version. 
 
 The other important concept is "push" and "pull", which push is uploading your local new version (new commit) to github, and pull is downloading the new version in github to your computer. The details will be explained later.
 
-### Getting Started
+### 3. Getting Started
 
 - Create an account in github https://github.com/
 - Install git https://git-scm.com/downloads
 - Good link for visualization when learning git: https://learngitbranching.js.org/?NODEMO
 
-### Set your Account for Git
+### 4. Create Repo on GitHub
+
+A repo(repository) is a programming project organized by git, and stored on some git server, which is GitHub.
+
+To create a repo, login GitHub and [click me](https://github.com/new). Alternatively, you can go to your profile page https://github.com/{your username}?tab=repositories and click the "new" button. 
+
+Enter you repo name and then click Create repository.
+
+### 5. Set Up the Repo on Your Computer
+
+#### 1. Set your Account for Git (Only need to do it once)
+
+Open git bash, and execute:
 
 ```shell
 git config --global user.email "your@email.com"
 git config --global user.name "Your Name"
 ```
 
-### Change Working Directory
+#### 2.Change Working Directory
 
-_AKA let git know where you need git_
+_AKA let git know where you need git, and where to set up your repo_
 
 Option1: Right click at your directory, click git bash here
    ![1_bash_here](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\git\1_bash_here.PNG)
@@ -38,8 +50,12 @@ Option2: Open git bash program, type
 cd "you/dir/name"
 ```
 
-###Clone Repo
+#### 3. Clone Repo
 
+```shell 
+git clone https://github.com/{your username}/{your repo name}.git
+```
+You can get the git URL here
 
 
 Upload and download 
@@ -145,3 +161,7 @@ If you are merging branch A to master and there is possible conflict, it is bett
 
 
 git reset --hard
+
+
+
+git stash
