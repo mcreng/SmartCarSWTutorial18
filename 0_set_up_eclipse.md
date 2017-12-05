@@ -4,21 +4,37 @@ Author: Dipsy Wong ([dipsywong98](http://www.github.com/dipsywong98))
 
 This section will cover how to set up eclipse for flashing program to MCU and setting up the development environment, which will take you around 1hour including downloading software. If you are unlucky, it may even take you a whole day.
 
-Video: https://youtu.be/v834HF_Uha4
+Video walkthrough: https://youtu.be/v834HF_Uha4
 
 If you want to set up eclipse for console program, please refer to 
 https://github.com/mcreng/SmartCarSWTutorial18/blob/master/1_basic_assignment.md
 
 ### 1.Download and Install the Essential Software
 
-- Eclipse C++ (Suggested version: Neon1, never use Neon2)
-  http://www.eclipse.org/downloads/packages/eclipse-ide-cc-developers/neon1
-- GNU Tools for ARM
-  https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads
-- Segger J-Link software pack https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack
-- GNU Make 
-  - windows: http://gnuwin32.sourceforge.net/packages/make.htm
-  - mac:https://code.google.com/archive/p/rudix/downloads
+- [Eclipse C++](http://www.eclipse.org/downloads/packages/eclipse-ide-cc-developers/neon1)(Suggested version: Neon1, never use Neon2)
+
+  direct download links:
+  - [Windows 32bit](http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/neon/1/eclipse-cpp-neon-1-win32.zip)
+  - [Windows 64bit](http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/neon/1/eclipse-cpp-neon-1-win32-x86_64.zip)
+  - [MacOS](http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/neon/1/eclipse-cpp-neon-1-macosx-cocoa-x86_64.tar.gz)
+  - [Linux 32 bit](http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/neon/1/eclipse-cpp-neon-1-linux-gtk.tar.gz)
+  - [Linux 64 bit](http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/neon/1/eclipse-cpp-neon-1-linux-gtk.tar.gz)
+- [GNU Tools for ARM](https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads) (Suggested version: 5.4 2016q3, which is not the newest)
+
+  direct download links:
+  - [Windows](https://developer.arm.com/-/media/Files/downloads/gnu-rm/5_4-2016q2/gcc-arm-none-eabi-5_4-2016q2-20160622-win32.exe?revision=8d5550ff-4ad0-4c6d-9a01-d6447d22784d?product=GNU%20Arm%20Embedded%20Toolchain)
+  - [Linux](https://developer.arm.com/-/media/Files/downloads/gnu-rm/5_4-2016q2/gccarmnoneeabi542016q220160622linuxtar.bz2?revision=8f445a99-c1ae-4ed8-9eb8-f41929a671c4?product=GNU%20Arm%20Embedded%20Toolchain)
+  - [MacOS](https://developer.arm.com/-/media/Files/downloads/gnu-rm/5_4-2016q2/gccarmnoneeabi542016q220160622mactar.bz2?revision=03ae9f41-1f43-40ed-9db8-a4b6342378ac?product=GNU%20Arm%20Embedded%20Toolchain,64-bit,,Mac%20OS%20X,5-2016-q2-update)
+- [Segger J-Link software pack](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack) (Suggested version V614b, which is not the newest also)
+
+  direct download links:
+  - [Windows](https://www.segger.com/downloads/jlink/JLink_Windows_V614b.exe)
+  - [MacOS](https://www.segger.com/downloads/jlink/JLink_MacOSX_V614b.pkg)
+  - [Linux 32bit](https://www.segger.com/downloads/jlink/JLink_Linux_V614b_i386.deb)
+  - [Linux 64bit](https://www.segger.com/downloads/jlink/JLink_Linux_V614b_x86_64.deb)
+- [GNU Make](http://gnuwin32.sourceforge.net/packages/make.htm) 
+  - [Windows](https://downloads.sourceforge.net/project/gnuwin32/make/3.81/make-3.81.exe?r=http%3A%2F%2Fgnuwin32.sourceforge.net%2Fpackages%2Fmake.htm&ts=1512447173&use_mirror=ncu)
+  - [Mac](https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/rudix/make-3.82-4.pkg) (if that doesn't work, find another one at https://code.google.com/archive/p/rudix/downloads)
 ### 2. Install Plug-in for Eclipse
 
 https://youtu.be/v834HF_Uha4?t=35s
