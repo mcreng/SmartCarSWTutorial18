@@ -7,7 +7,7 @@ This section will cover how to set up eclipse for flashing program to MCU and se
 Video walkthrough: https://youtu.be/v834HF_Uha4
 
 If you want to set up eclipse for console program, please refer to 
-https://github.com/mcreng/SmartCarSWTutorial18/blob/master/1_basic_assignment.md
+https://github.com/mcreng/SmartCarSWTutorial18/blob/master/0b_mingw_setup.md
 
 ### 1.Download and Install the Essential Software
 
