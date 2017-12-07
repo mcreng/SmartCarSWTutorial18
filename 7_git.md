@@ -4,7 +4,9 @@ Author: Dipsy Wong ([dipsywong98](http://www.github.com/dipsywong98))
 
 ### 1. What is Git
 
-Git is a "Google drive" for coders with version control, it can help the collaboration between coders. Github is just one of the "cloud service provider" and we are going to use it. You can also use git locally without a cloud (actually it is called a remote) for your own version control.
+Git is a "Google drive" for coders with version control, it can help the collaboration between coders. Github is just one of the "cloud service provider" and we are going to use it. ~~So if you know how to use Google Drive, you know how to use git.~~
+
+~~You can also use git locally without a cloud (actually it is called a remote) for your own version control.~~
 
 ### 2. How it works
 
@@ -157,22 +159,13 @@ The file just added will be directly staged. The files in the stage area are the
 When the tracked files have changes and you want to record them, you need to stage the the files. To stage a file.
 
 ```shell
-#option 1: one by one
-git stage readme.md
-
-#option 2: more than one
-git stage my_class.h my_class.cpp 
-
-#option 3: wild card, * is corresponding to any sequence of characters
-git stage *.txt
-
-#option 4: by directory
-git stage img/
+#you can do it in a way similar to git add
+git stage your_file.name
 ```
 
-If you stage a file which is originally not tracked, it will become tracked and at the same time staged, which is same as `git add`.
+If you stage a file which is originally not tracked, it will become tracked and  staged, which is same as `git add`.
 
-#### 9.4 Git Commit (Record this stage)
+#### 9.4 Git Commit (Record this Stage)
 
 A commit is the unit of git to track the versioning. 
 
@@ -188,21 +181,72 @@ git commit
 git commit -m "my commit message"
 ```
 
-if you want to type `git stage *` before commit, you can do the following to avoid typing `git stage *`. But make sure you know which files are going to be commit (always `git status` first).
+If you accidently enter vim (console line text editor), you can press `esc` and then enter `:wq!` , you can leave. If you want to learn vim, google it.
+
+if you want to commit the changes of all tracking files, you can use `git commit -a -m "your commit message"` to avoid typing `git stage`. But make sure you know which files are going to be committed (always `git status` first).
 
 ```shell
 git commit -a -m "my commit message"
 
-#equivilent with
+#similar with
 git stage *
 git commit -m "my commit message"
+#except the first one will not add untracked files (important)
 ```
 
-##### 9.5 Git Push
+#### 9.5 Git Push (Upload New Commits)
 
-​    
+After you commit, remember to push it, or else if other contributor push their commit, you will suffer from conflict when you want to push your code after some while.
 
-​    
+```shell
+git push
+```
+
+#### 9.6 Wrap Up
+
+```shell
+#if you just want to upload all of your code
+git add * #when you have new file
+git commit -a -m "commit message"
+git push
+```
+
+It will be better if you choose better files to add (for example better not add generated file like `.exe`)
+
+### 10. More Flow of Git
+
+####  Git Reset (Unstage the Added/Staged File)
+
+`git reset` is a way to unstage the files from the staging area, by making the file content of the staging area same as previous commit. There is a soft reset and hard reset
+
+- soft reset: the file content of your working directory will be unchanged
+- hard reset: all the file content of your working directory will be rolled back to the previous commit
+
+if you stage or add a wrong file, you can remove it from the stage area by typing
+
+```shell
+#you can do it in a way similar to git add
+git reset your_file.name
+
+#or reset anything in the stage area by
+git reset
+```
+
+If you want to reset anything in your working directory, do hard reset
+
+```shell
+git reset --hard
+```
+
+You can also use`git reset` to roll back multiple commits ()
+
+####  Git Revert
+
+
+
+#### In a Nutshell    
+
+
 
 ​    
 
