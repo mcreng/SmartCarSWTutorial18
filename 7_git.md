@@ -1,6 +1,6 @@
-# Git 101
+# Git
 
-Author: Dipsy Wong ([dipsywong98](http://www.github.com/dipsywong98))
+>  Author: Dipsy Wong ([dipsywong98](http://www.github.com/dipsywong98))
 
 ### 1. What is Git
 
@@ -111,7 +111,7 @@ This is useful when you have created an eclipse project, and you want to turn th
 
 ![Git Flow](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\git\Git Flow.png)
 
-#### Overview
+#### 9.0 Overview
 
 if you just want to upload all of your code, do this:
 
@@ -125,7 +125,7 @@ git commit -a -m "commit message"	#name the version
 git push		#upload new version
 ```
 
-#### Some New Concepts
+#### 9.1 Some New Concepts
 
 Before this, you may know that a repo have 2 versions (ignoring other contributors): 
 
@@ -139,7 +139,7 @@ During your development, you are working on the local version. After that you ca
 
 ![The lifecycle of the status of your files.](https://git-scm.com/book/en/v2/images/lifecycle.png)
 
-#### 9.0 Git Status
+#### 9.2 Git Status
 
 ```shell
 git status
@@ -155,7 +155,7 @@ This command can tell you:
 
 It is suggested to run this command before other git command to let you know what is your current status. Below can give your the idea on the information that `git status` provides.
 
-#### 9.1 Git Pull (Download New Code)
+#### 9.3 Git Pull (Download New Code)
 
 Before start coding new stuff, remember to git pull. If there is new stuff on remote but not on your computer, and you have implement new stuff that you want to upload to remote, conflict will happen (There are other sources of conflict and will be discussed later). So always make sure your local repository is in sync with the remote before doing new stuff. To git pull:
 
@@ -165,7 +165,7 @@ git pull
 
 This will update the local, intermediate and head version as the newest version on the remote
 
-#### 9.2 Git Add (Track New Files)
+#### 9.4 Git Add (Track New Files)
 
 Git is a system which tracks the changes of the files, so you need to tell git which files you would like to track. To track a file:
 
@@ -185,7 +185,7 @@ git add img/
 
 The file just added will be directly staged. The files in the stage area are the files to commit.
 
-#### 9.3 Git Stage (Stage Modified Files)
+#### 9.5 Git Stage (Stage Modified Files)
 
 When the tracked files have changes and you want to record them, you need to stage the the files. To stage a file.
 
@@ -200,7 +200,7 @@ It is update certain file in the intermediate version as the the local version
 
 (intermediate version = local version)
 
-#### 9.4 Git Commit (Record this Stage)
+#### 9.6 Git Commit (Record this Stage)
 
 A commit is the unit of git to track the versioning. 
 
@@ -230,7 +230,7 @@ git commit -m "my commit message"
 #except the first one will not add untracked files (important)
 ```
 
-#### 9.5 Git Push (Upload New Commits)
+#### 9.7 Git Push (Upload New Commits)
 
 After you commit, remember to push it, or else if other contributor push their commit, you will suffer from conflict when you want to push your code after some while.
 
@@ -240,9 +240,9 @@ git push
 
 This will update the versions on the remote.
 
-### 10. Fix by Undo
+### 10. Fix Bugs by Undo
 
-#### Overview
+#### 10.0 Overview
 
 ```shell
 #if you stage something wrong and want to remove it from stage area
@@ -260,7 +260,7 @@ git revert HEAD^ #create a new commit, which content is commit that before HEAD
 git revert a47c3 #create a new commit, which content is commit having id (SHA) a47c3
 ```
 
-####  Git Reset (Unstage the File)
+####  10.1 Git Reset (Unstage the File)
 
 `git reset` is a way to unstage the files from the staging area, by making the file content of the staging area same as previous commit. There is a soft reset and hard reset
 
@@ -294,7 +294,7 @@ git reset a47c3 #go back to commit which have id (SHA) a47c3, hard reset
 
 this is done by changing the version of HEAD to different commit version, and then copy the HEAD version to stage version and local version.
 
-####  Git Revert (Undo Commits)
+####  10.2 Git Revert (Undo Commits)
 
 If you want to rollback commit that have been pushed, use `git revert` to safely undo it. Git revert is done by appending a new commit to current HEAD, make the version same as the reverted state. For example:
 
@@ -310,7 +310,7 @@ Here we are not going to use `git reset` because `git reset` will remote the com
 
 ### 11. Branching
 
-#### Overview
+#### 11.0 Overview
 
 When there is diverge version/ new feature/ different people working, better use branch to avoid conflict/ as a restart point 
 
@@ -332,7 +332,7 @@ git checkout master
 git rebase feature
 ```
 
-#### Why Branch
+#### 11.1 Why Branch
 
 ##### As a restart point
 
@@ -343,7 +343,7 @@ When you are making diverge version/ new feature, and then you find it totally s
 
 Conflict occurs when there is two new version of a same file. For example there is a file called `a.txt`, have `hello world` as its content. If Peter pushed a new version of `a.txt`: `hello genius Peter`, and I want to push new version of `a.txt`: `hello boygod Leslie`, conflict will occur as git don't know which is the real version. If branches is set up to separate everyone's work, everyone's new version can be tracked at the same time, and conflict can be solved only when there is merges of branch. 
 
-#### Create Branch and Switch Branch
+#### 11.2 Create Branch and Switch Branch
 
 To create branch which is base on current HEAD position, type
 
@@ -375,7 +375,7 @@ git push --set-upstream origin branch-name
 
 to create a new branch at your origin and push.
 
-#### Merge Branch
+#### 11.3 Merge Branch
 
 When you done with some branch (let's call is feature branch) and want master branch to have these changes, you can first switch to master branch, and then merge the feature branch to master branch by referencing the newly created merge commit reference to both last commit at master branch and last commit at feature branch (Join two or more development histories together).
 
@@ -386,7 +386,7 @@ git merge feature -m "merge feature branch"
 
 If the merge have possible conflict, it is better to solve the conflict at feature branch first, to make sure the new code is compatible with current code in master, so that code at master branch is always stable
 
-#### Rebase
+#### 11.4 Rebase
 
 What you need to do with rebase is exactly same as merge, except its merging principle is different. Rebase is done by "sequentially regenerate a series of commits so they can be applied directly to the head node", which is copying the commits in feature branch, and paste them on master branch. And then the final commit history of master branch looks linear, while there is diamond shape in `git merge`.
 

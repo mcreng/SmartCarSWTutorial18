@@ -63,4 +63,17 @@ This is a repository for the upcoming 2018 SmartCar Software Tutorial materials.
 
 ## Git
 
-### Git
+- What is git
+- How git works
+- Getting started
+- Create Repository and Setup it on Computer
+- Basic Flow of Git
+  - git pull/ git push
+  - git add/ git stage
+  - git commit
+  - git status
+- Fix Bugs by Undo using Git
+  - git reset/ git revert
+- Branching
+  - git branch/ git checkout
+  - git merge/ git rebase
