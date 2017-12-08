@@ -10,7 +10,7 @@ Git is a "Google drive" for coders with version control, it can help the collabo
 
 ### 2. How it works
 
-The most important concept is "commit". A commit is actually a record of all your codes. It can act as a roll back point when you do something sucks. All the versions are just all the commits. Every time you call commit, git takes a photo of you code, and records it as a newer version. 
+The most important concept is "commit". A commit is actually a record of all your codes. It can act as a rollback point when you do something sucks. All the versions are just all the commits. Every time you call commit, git takes a photo of you code, and records it as a newer version. 
 
 The other important concept is "push" and "pull", which push is uploading your local new version (new commit) to github, and pull is downloading the new version in github to your computer. The details will be explained later.
 
@@ -111,18 +111,47 @@ This is useful when you have created an eclipse project, and you want to turn th
 
 ![Git Flow](C:\Users\dipsy\Desktop\ROBO\SmartCarSWTutorial18\img\git\Git Flow.png)
 
+#### Overview
+
+if you just want to upload all of your code, do this:
+
+```shell
+git pull	#download new version
+
+#coding...
+
+git stage *		#define this version is changes of all codes
+git commit -a -m "commit message"	#name the version
+git push		#upload new version
+```
+
+#### Some New Concepts
+
+Before this, you may know that a repo have 2 versions (ignoring other contributors): 
+
+HEAD version and local version. (HEAD is a cursor to browse your version history. At this stage we are assuming HEAD version is your latest commit version)
+
+Actually, there is an intermediate version by git, which is called stage.
+
+During your development, you are working on the local version. After that you can stage the new files to the intermediate version. When git compare the intermediate version with HEAD version, git will know there is some changes. When you commit, your are making the intermediate version to be the new version of the repository, and HEAD version will be updated. 
+
+![img](http://marklodato.github.io/visual-git-guide/commit-master.svg)
+
+![The lifecycle of the status of your files.](https://git-scm.com/book/en/v2/images/lifecycle.png)
+
 #### 9.0 Git Status
 
 ```shell
 git status
 ```
 
-This command can tell you most the information:
+This command can tell you:
 
 - Your current working branch (branch will be discussed later)
-- Files that you haven't track
-- Tracking files that have been modified
-- Number of commits you are ahead of master
+- Files in your directory but not in your local repo
+- Files that have difference in local version and intermediate version (modified but not staged)
+- Files that have difference in intermediate version and HEAD version (modified and staged)
+- Number of commits you are ahead/behind of master
 
 It is suggested to run this command before other git command to let you know what is your current status. Below can give your the idea on the information that `git status` provides.
 
@@ -133,6 +162,8 @@ Before start coding new stuff, remember to git pull. If there is new stuff on re
 ```shell
 git pull
 ```
+
+This will update the local, intermediate and head version as the newest version on the remote
 
 #### 9.2 Git Add (Track New Files)
 
@@ -165,11 +196,16 @@ git stage your_file.name
 
 If you stage a file which is originally not tracked, it will become tracked and  staged, which is same as `git add`.
 
+It is update certain file in the intermediate version as the the local version
+
+(intermediate version = local version)
+
 #### 9.4 Git Commit (Record this Stage)
 
 A commit is the unit of git to track the versioning. 
 
 It is done by recording all the changes in the stage area. After commit, you repo is move on by one version, and the committed changes will be saved, and the corresponding files will be marked as unchanged as well. 
+(create a new version for HEAD, HEAD version = intermediate version)
 
 Each commit will come along with a commit message (to describe what is changed, please make it short and precise) and a SHA (a unique id for the commit)
 
@@ -202,25 +238,36 @@ After you commit, remember to push it, or else if other contributor push their c
 git push
 ```
 
-#### 9.6 Wrap Up
+This will update the versions on the remote.
+
+### 10. Fix by Undo
+
+#### Overview
 
 ```shell
-#if you just want to upload all of your code
-git add * #when you have new file
-git commit -a -m "commit message"
-git push
+#if you stage something wrong and want to remove it from stage area
+git reset the_stupid_file.txt
+
+#if you want to roll back to the last commit after coding some stupid things
+git reset --hard
+
+#if you commit something wrong but thanks god you haven't push it
+git reset HEAD^ #go back by 1 commit, hard reset
+git reset a47c3 #go back to commit which have id (SHA) a47c3, hard reset
+
+#if you commit something wrong but you already push it
+git revert HEAD^ #create a new commit, which content is commit that before HEAD
+git revert a47c3 #create a new commit, which content is commit having id (SHA) a47c3
 ```
 
-It will be better if you choose better files to add (for example better not add generated file like `.exe`)
-
-### 10. More Flow of Git
-
-####  Git Reset (Unstage the Added/Staged File)
+####  Git Reset (Unstage the File)
 
 `git reset` is a way to unstage the files from the staging area, by making the file content of the staging area same as previous commit. There is a soft reset and hard reset
 
 - soft reset: the file content of your working directory will be unchanged
+  (intermediate version = HEAD version)
 - hard reset: all the file content of your working directory will be rolled back to the previous commit
+  (local version = intermediate version = HEAD version)
 
 if you stage or add a wrong file, you can remove it from the stage area by typing
 
@@ -232,81 +279,121 @@ git reset your_file.name
 git reset
 ```
 
-If you want to reset anything in your working directory, do hard reset
+If you want to reset anything in your working directory to HEAD version (last commit), do hard reset
 
 ```shell
 git reset --hard
 ```
 
-You can also use`git reset` to roll back multiple commits ()
+You can also use`git reset` to rollback multiple commits (if you haven't push those commits)
 
-####  Git Revert
+```shell
+git reset HEAD^ #go back by 1 commit, hard reset
+git reset a47c3 #go back to commit which have id (SHA) a47c3, hard reset
+```
 
+this is done by changing the version of HEAD to different commit version, and then copy the HEAD version to stage version and local version.
 
+####  Git Revert (Undo Commits)
 
-#### In a Nutshell    
+If you want to rollback commit that have been pushed, use `git revert` to safely undo it. Git revert is done by appending a new commit to current HEAD, make the version same as the reverted state. For example:
 
+```shell
+git revert a47c3
+```
 
+This will commit a new version same as `a47c3`.
 
-​    
+You may also use `git revert HEAD^` to undo last commit.
 
-Branch and merge
+Here we are not going to use `git reset` because `git reset` will remote the commit, if other contributor have already pull that commit, they will GG. 
 
-​    
+### 11. Branching
 
-When there is diverge version/ new feature/ different  people working, better use branch to avoid conflict/ as a restart point （aka 砍掉重煉不太痛）
+#### Overview
 
-​    
+When there is diverge version/ new feature/ different people working, better use branch to avoid conflict/ as a restart point 
 
-Master branch: Most likely the default main branch 
+```shell
+#create new branch
+git branch my-branch
 
-​    
+#move HEAD to a branch
+git checkout my-branch
 
-​    
+#merge branch master with feature
+#(master branch takes the new changes in feature branch)
+git checkout master
+git merge feature -m "commit message"
 
-Open new branch 
+#rebase branch master on feature
+#(make master brach base on feature branch)
+git checkout master
+git rebase feature
+```
 
-​    
+#### Why Branch
 
-Git checkout -b branch-name
+##### As a restart point
 
-​    
+When you are making diverge version/ new feature, and then you find it totally sucks and you want to go back to a normal version and do not want to see your stupid code again, you can directly throw away this new feature branch. 
+（砍掉重煉不太痛）
 
-​    
+##### Avoid conflict
 
-Goto existing branch
+Conflict occurs when there is two new version of a same file. For example there is a file called `a.txt`, have `hello world` as its content. If Peter pushed a new version of `a.txt`: `hello genius Peter`, and I want to push new version of `a.txt`: `hello boygod Leslie`, conflict will occur as git don't know which is the real version. If branches is set up to separate everyone's work, everyone's new version can be tracked at the same time, and conflict can be solved only when there is merges of branch. 
 
-​    
+#### Create Branch and Switch Branch
 
-Git checkout branch-name
+To create branch which is base on current HEAD position, type
 
-​    
+```shell
+git branch branch-name
+```
 
-​    
+but note that you are still on your original branch, so you need to type 
 
-Merge branch
+```shell
+git checkout branch-name
+```
 
-​    
+to actually switch your working branch to that branch.
 
-The version or feature converge
+You may also create and switch in one shot
 
-​    
+```shell
+git checkout -b branch-name
+```
 
-Git checkout base-branch 
+Note that the version of your HEAD is still on same commit, and the stage version and local version unchanged as well.
 
-​    
+When you want to push the new branch to your remote, for the first time you need to type
 
-Git merge source-branch 
+```shell
+git push --set-upstream origin branch-name
+```
 
-​    
+to create a new branch at your origin and push.
 
-​    
+#### Merge Branch
 
-If you are merging branch A to master and there is possible conflict, it is better to solve the conflict at A first, to make sure the new code is compatible with current code in master
+When you done with some branch (let's call is feature branch) and want master branch to have these changes, you can first switch to master branch, and then merge the feature branch to master branch by referencing the newly created merge commit reference to both last commit at master branch and last commit at feature branch (Join two or more development histories together).
 
+```shell 
+git checkout master
+git merge feature -m "merge feature branch"
+```
 
+If the merge have possible conflict, it is better to solve the conflict at feature branch first, to make sure the new code is compatible with current code in master, so that code at master branch is always stable
 
-git reset --hard
+#### Rebase
+
+What you need to do with rebase is exactly same as merge, except its merging principle is different. Rebase is done by "sequentially regenerate a series of commits so they can be applied directly to the head node", which is copying the commits in feature branch, and paste them on master branch. And then the final commit history of master branch looks linear, while there is diamond shape in `git merge`.
+
+```shell
+git checkout master
+git rebase feature
+```
 
 
 
