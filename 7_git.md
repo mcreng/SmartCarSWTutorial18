@@ -411,17 +411,87 @@ git rebase feature
 
 ### 12 More on Git
 
-#### Git Diff
+#### 12.1 Git Diff
 
-#### Git Stash
+This is to check difference in two commit.
 
-#### Git Checkout
+(Actually use some IDE or GitHub website is a better choice)
 
-#### Git Cherrypick
+```shell
+#compare local and stage
+git diff
 
+#compare HEAD and local
+git diff HEAD
 
+#compare stage and HEAD
+git diff --cached
 
+#compare two commits
+git diff b325c da985
+
+#compare branch and local
+git diff branch-name
+```
+
+#### 12.2 Git Stash
+
+Git stash is for temporary saving. When you are working on some version, and you need to switch to other branches, normally you need to make there is no local changes first (version of local and HEAD need to be sync). However you don't want to drop your changes nor making a new commit, you can use git stash to temporary save your changes. 	 
+
+```shell
+#save your changes, and then reset your local changes
 git stash
+#then you can checkout other branches
+
+#apply the changes stashed
+git stash apply
+
+#and then you need to manually drop the stash
+git stash drop
+```
+
+ you may have multiple stashes, you can list then out
+
+```shell
+git stash list
+```
+
+sample output
+
+```shell
+stash@{0}: WIP on master: ce172ad ggg
+stash@{1}: WIP on master: fe32a47 master
+stash@{2}: WIP on master: aa120be master
+stash@{3}: WIP on master: 4e6da87 ggg
+```
+
+and apply/ drop specific stash by adding index as extra parameter
+
+```shell
+git stash apply 1 #apply stash@{1}: WIP on master: fe32a47 master
+git stash drop 1 #delete stash@{1}: WIP on master: fe32a47 master
+```
+
+#### 12.3 Git Checkout
+
+As mentioned above `git checkout`  can be used for switching working branch, it can also switch HEAD version to different commit. Note that detached HEAD will occur when you commit here.
+
+```shell
+#set HEAD, stage, and local version as b325c
+git checkout b325c
+```
+
+After coding on `b325c`, you may commit, this will lead to a detached HEAD, which mean a commit don't have branch label to track. If you checkout to other version, you may forever lost this version (unless you can remember its SHA). If you want to keep it, you can create branch for it.
+
+#### 12.4 Git Cherrypick
+
+Cherrypick is to create a commit which is identical with another commit. This is useful if you want to copy a certain commit on a branch to another branch.
+
+```shell
+git cherry-pick 2c33a #create a new commit, which is same as b325c
+```
+
+![img](http://marklodato.github.io/visual-git-guide/cherry-pick.svg)
 
 ### Reference
 
