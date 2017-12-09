@@ -230,6 +230,16 @@ git commit -m "my commit message"
 #except the first one will not add untracked files (important)
 ```
 
+If your previous commit is a mistake, but you haven't push, you can still amend it by
+
+```shell
+git commit --amend -m "my commit message"
+```
+
+This will drop the last commit, and add a new commit using your stage version
+
+![img](http://marklodato.github.io/visual-git-guide/commit-amend.svg)
+
 #### 9.7 Git Push (Upload New Commits)
 
 After you commit, remember to push it, or else if other contributor push their commit, you will suffer from conflict when you want to push your code after some while.
@@ -386,6 +396,8 @@ git merge feature -m "merge feature branch"
 
 If the merge have possible conflict, it is better to solve the conflict at feature branch first, to make sure the new code is compatible with current code in master, so that code at master branch is always stable
 
+![img](http://marklodato.github.io/visual-git-guide/merge.svg)
+
 #### 11.4 Rebase
 
 What you need to do with rebase is exactly same as merge, except its merging principle is different. Rebase is done by "sequentially regenerate a series of commits so they can be applied directly to the head node", which is copying the commits in feature branch, and paste them on master branch. And then the final commit history of master branch looks linear, while there is diamond shape in `git merge`.
@@ -395,6 +407,24 @@ git checkout master
 git rebase feature
 ```
 
+![img](http://marklodato.github.io/visual-git-guide/rebase.svg)
+
+### 12 More on Git
+
+#### Git Diff
+
+#### Git Stash
+
+#### Git Checkout
+
+#### Git Cherrypick
+
 
 
 git stash
+
+### Reference
+
+http://marklodato.github.io/visual-git-guide/index-en.htm
+
+https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository
