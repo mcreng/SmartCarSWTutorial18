@@ -230,6 +230,16 @@ git commit -m "my commit message"
 #except the first one will not add untracked files (important)
 ```
 
+If your previous commit is a mistake, but you haven't push, you can still amend it by
+
+```shell
+git commit --amend -m "my commit message"
+```
+
+This will drop the last commit, and add a new commit using your stage version
+
+![img](http://marklodato.github.io/visual-git-guide/commit-amend.svg)
+
 #### 9.7 Git Push (Upload New Commits)
 
 After you commit, remember to push it, or else if other contributor push their commit, you will suffer from conflict when you want to push your code after some while.
@@ -386,6 +396,8 @@ git merge feature -m "merge feature branch"
 
 If the merge have possible conflict, it is better to solve the conflict at feature branch first, to make sure the new code is compatible with current code in master, so that code at master branch is always stable
 
+![img](http://marklodato.github.io/visual-git-guide/merge.svg)
+
 #### 11.4 Rebase
 
 What you need to do with rebase is exactly same as merge, except its merging principle is different. Rebase is done by "sequentially regenerate a series of commits so they can be applied directly to the head node", which is copying the commits in feature branch, and paste them on master branch. And then the final commit history of master branch looks linear, while there is diamond shape in `git merge`.
@@ -395,6 +407,94 @@ git checkout master
 git rebase feature
 ```
 
+![img](http://marklodato.github.io/visual-git-guide/rebase.svg)
 
+### 12 More on Git
 
+#### 12.1 Git Diff
+
+This is to check difference in two commit.
+
+(Actually use some IDE or GitHub website is a better choice)
+
+```shell
+#compare local and stage
+git diff
+
+#compare HEAD and local
+git diff HEAD
+
+#compare stage and HEAD
+git diff --cached
+
+#compare two commits
+git diff b325c da985
+
+#compare branch and local
+git diff branch-name
+```
+
+#### 12.2 Git Stash
+
+Git stash is for temporary saving. When you are working on some version, and you need to switch to other branches, normally you need to make there is no local changes first (version of local and HEAD need to be sync). However you don't want to drop your changes nor making a new commit, you can use git stash to temporary save your changes. 	 
+
+```shell
+#save your changes, and then reset your local changes
 git stash
+#then you can checkout other branches
+
+#apply the changes stashed
+git stash apply
+
+#and then you need to manually drop the stash
+git stash drop
+```
+
+ you may have multiple stashes, you can list then out
+
+```shell
+git stash list
+```
+
+sample output
+
+```shell
+stash@{0}: WIP on master: ce172ad ggg
+stash@{1}: WIP on master: fe32a47 master
+stash@{2}: WIP on master: aa120be master
+stash@{3}: WIP on master: 4e6da87 ggg
+```
+
+and apply/ drop specific stash by adding index as extra parameter
+
+```shell
+git stash apply 1 #apply stash@{1}: WIP on master: fe32a47 master
+git stash drop 1 #delete stash@{1}: WIP on master: fe32a47 master
+```
+
+#### 12.3 Git Checkout
+
+As mentioned above `git checkout`  can be used for switching working branch, it can also switch HEAD version to different commit. Note that detached HEAD will occur when you commit here.
+
+```shell
+#set HEAD, stage, and local version as b325c
+git checkout b325c
+```
+
+After coding on `b325c`, you may commit, this will lead to a detached HEAD, which mean a commit don't have branch label to track. If you checkout to other version, you may forever lost this version (unless you can remember its SHA). If you want to keep it, you can create branch for it.
+
+#### 12.4 Git Cherrypick
+
+Cherrypick is to create a commit which is identical with another commit. This is useful if you want to copy a certain commit on a branch to another branch.
+
+```shell
+git cherry-pick 2c33a #create a new commit, which is same as b325c
+```
+
+![img](http://marklodato.github.io/visual-git-guide/cherry-pick.svg)
+
+### Reference
+
+http://marklodato.github.io/visual-git-guide/index-en.htm
+
+https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository
