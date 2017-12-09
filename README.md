@@ -77,3 +77,5 @@ This is a repository for the upcoming 2018 SmartCar Software Tutorial materials.
 - Branching
   - git branch/ git checkout
   - git merge/ git rebase
+- More on Git
+  - git diff, git stash, git checkout, git cherry-pick
