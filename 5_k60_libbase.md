@@ -2,6 +2,8 @@
 
 Author: Peter Tse ([mcreng](http://www.github.com/mcreng)), Dipsy Wong ([dipsywong98](http://www.github.com/dipsywong98))
 
+[TOC]
+
 ### Introduction
 
 This sections include controls to basic peripherals provided by the MCU. In your SmartCar development, you may seldom use these configurations, but these can help you a lot since you have a greater freedom using libbase than libsc. Understanding these could also allow you to develop the project with a more appropriate mindset.
