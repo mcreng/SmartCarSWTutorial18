@@ -1,3 +1,5 @@
+**This repository is discontinued and the contents/updates are moved to [here](https://github.com/hkust-smartcar/tutorials).**
+
 # SmartCar Software Tutorial
 
 Author: Peter Tse ([mcreng](http://www.github.com/mcreng)), Dipsy Wong ([dipsywong98](http://www.github.com/dipsywong98))
